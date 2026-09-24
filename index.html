@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fidelis — performance-preserving instrument reconstruction for AI-generated music stems." />
+  <title>Fidelis — Performance-Preserving Instrument Reconstruction</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="mark" aria-hidden="true">F</div>
+        <div>
+          <div class="brand">FIDELIS</div>
+          <div class="tagline">Performance-preserving instrument reconstruction</div>
+        </div>
+      </div>
+      <div class="status-chip"><span class="status-dot"></span> Browser engine ready</div>
+    </header>
+
+    <nav class="stage-rail" aria-label="Fidelis workflow">
+      <button class="stage active" data-stage="input"><span>01</span>Input</button>
+      <button class="stage" data-stage="analyze"><span>02</span>Analyze</button>
+      <button class="stage" data-stage="route"><span>03</span>Route</button>
+      <button class="stage" data-stage="render"><span>04</span>Render</button>
+      <button class="stage" data-stage="compare"><span>05</span>Compare</button>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">INDEPENDENT AUDIO LAB</p>
+          <h1>Keep the performance.<br><span>Replace the ceiling.</span></h1>
+          <p class="lede">Drop in a Suno or other generated instrument stem. Fidelis extracts a machine-readable performance description, recommends reconstruction routes, and prepares the stem for high-fidelity rendering.</p>
+        </div>
+        <div class="hero-diagram" aria-label="Signal flow">
+          <div class="node">AI stem</div><div class="arrow">→</div><div class="node accent">performance</div><div class="arrow">→</div><div class="node">new renderer</div>
+        </div>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="panel input-panel">
+          <div class="panel-head">
+            <div><p class="kicker">SOURCE</p><h2>Instrument stem</h2></div>
+            <span id="fileState" class="badge neutral">No file</span>
+          </div>
+
+          <label class="dropzone" id="dropzone" for="audioFile">
+            <input id="audioFile" type="file" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" />
+            <div class="drop-icon">↥</div>
+            <strong>Drop a stem here</strong>
+            <span>WAV preferred · audio stays in your browser for v0</span>
+          </label>
+
+          <div class="form-row">
+            <label>Instrument
+              <select id="instrumentType">
+                <option value="fiddle">Fiddle / violin</option>
+                <option value="guitar">Guitar</option>
+                <option value="bass">Bass</option>
+                <option value="piano">Piano / keys</option>
+                <option value="drums">Drums / percussion</option>
+                <option value="vocals">Vocals</option>
+                <option value="unknown">Other / unknown</option>
+              </select>
+            </label>
+            <label>Analysis depth
+              <select id="analysisDepth">
+                <option value="fast">Fast preview</option>
+                <option value="full" selected>Performance</option>
+              </select>
+            </label>
+          </div>
+
+          <canvas id="waveform" width="900" height="190" aria-label="Audio waveform"></canvas>
+          <div class="transport-row">
+            <button id="playBtn" class="button secondary" disabled>▶ Preview</button>
+            <button id="analyzeBtn" class="button primary" disabled>Analyze performance</button>
+          </div>
+          <audio id="audioPreview" controls hidden></audio>
+        </div>
+
+        <aside class="panel side-panel">
+          <div class="panel-head"><div><p class="kicker">LIVE READOUT</p><h2>Signal profile</h2></div></div>
+          <div class="metric-grid">
+            <div class="metric"><span>Duration</span><strong id="metricDuration">—</strong></div>
+            <div class="metric"><span>Sample rate</span><strong id="metricRate">—</strong></div>
+            <div class="metric"><span>RMS</span><strong id="metricRms">—</strong></div>
+            <div class="metric"><span>Crest</span><strong id="metricCrest">—</strong></div>
+            <div class="metric"><span>Pitch frames</span><strong id="metricPitch">—</strong></div>
+            <div class="metric"><span>Notes found</span><strong id="metricNotes">—</strong></div>
+          </div>
+          <div class="mini-note">This first build performs deterministic browser-side analysis. External engines remain adapters so RAVE, BRAVE, DDSP, STRAdi, Instrudio, or hosted workers can be attached without changing the project format.</div>
+        </aside>
+      </section>
+
+      <section class="panel routes-panel">
+        <div class="panel-head">
+          <div><p class="kicker">JEV ROUTER</p><h2>Reconstruction routes</h2></div>
+          <span id="routeState" class="badge neutral">Awaiting analysis</span>
+        </div>
+        <div id="routeCards" class="route-cards"></div>
+      </section>
+
+      <section class="workspace-grid lower-grid">
+        <div class="panel performance-panel">
+          <div class="panel-head">
+            <div><p class="kicker">PERFORMANCE DESCRIPTION</p><h2>Extracted gestures</h2></div>
+            <button id="exportBtn" class="button secondary compact" disabled>Export JSON</button>
+          </div>
+          <div id="performanceEmpty" class="empty-state">Analyze a stem to create <code>performance.json</code>.</div>
+          <div id="performanceTableWrap" class="table-wrap" hidden>
+            <table>
+              <thead><tr><th>Time</th><th>Note</th><th>Dur.</th><th>Dynamics</th><th>Vibrato</th><th>Transition</th></tr></thead>
+              <tbody id="performanceRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside class="panel log-panel">
+          <div class="panel-head"><div><p class="kicker">ORCHESTRATION</p><h2>Run log</h2></div></div>
+          <div id="runLog" class="run-log" aria-live="polite">
+            <div><time>BOOT</time><span>Fidelis browser runtime initialized.</span></div>
+            <div><time>JEV</time><span>Decision layer standing by.</span></div>
+            <div><time>HARNESS</time><span>DeepSeek adapter contract available for external orchestration.</span></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel engine-panel">
+        <div class="panel-head"><div><p class="kicker">ENGINE REGISTRY</p><h2>Open systems + Fidelis ecosystem</h2></div><span class="badge">Adapter-first</span></div>
+        <div id="engineGrid" class="engine-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Fidelis v0.1 · independent by design</span>
+      <span>Stem → performance → renderer → comparison</span>
+    </footer>
+  </div>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
