@@ -23,6 +23,39 @@ These defects block milestone acceptance.
 - remove duplicated telemetry units;
 - re-run complete sandbox gate.
 
+## Post-fix sandbox evidence
+
+Static and deterministic gates:
+
+- `npm run check`: PASS
+- `npm test`: PASS
+- synthetic fiddle: A4-class pitch recovery, performance events produced, physical reconstruction route selected
+
+Browser gate:
+
+- 1440 x 1000 initial render: PASS
+- 1440 x 1000 post-decompile render: PASS
+- 390 x 844 post-decompile render: PASS
+- engine registry: 12 cards
+- audio upload/decode: PASS
+- waveform state: SOURCE LOCKED
+- decompile: PASS
+- pitch frames: 128
+- performance events: 23
+- rebuild routes: 3
+- export: valid `.performance.json` download
+- empty state hidden after results: PASS
+- results table visible: PASS
+- active stage after decompile: REBUILD
+- desktop horizontal page overflow: none
+- mobile horizontal page overflow: none
+- browser/page errors: 0
+- critical mobile text checked: 10–11 px minimum
+
+Sandbox Chromium blocks direct navigation to localhost/file URLs in this environment. The browser gate therefore used the documented transport workaround: exact repository HTML/CSS plus the same JS modules injected into an isolated Chromium page, then interacted with the real file input, Web Audio decode, decompile button, DOM results and export control.
+
 ## Gate state
 
-**OPEN — do not begin the next Fidelis milestone until the post-fix sandbox run passes.**
+**PASS — the pre-pre-alpha chassis gate is closed.**
+
+This pass does not mean Fidelis is an alpha product. It means the current reconstruction deck is stable enough to begin the next planned milestone, **Decompile Project Model v0.2**, on a new branch.
