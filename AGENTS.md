@@ -32,7 +32,10 @@ Do not optimize merely for a prettier waveform. Preserve the musical performance
 - Record model/revision/adapter identity in generated manifests.
 - Do not label heuristic articulation estimates as factual bowing/fingering data.
 - Prefer versioned JSON contracts between stages.
-- Keep browser v0 functional without credentials.\n- Do not develop features directly on `main`; use a task branch and a gate-backed PR.\n- UI/workflow changes require sandbox browser validation and screenshot review before merge.\n- Do not advance a milestone while its quality gate is open.
+- Keep browser v0 functional without credentials.
+- Do not develop features directly on `main`; use a task branch and a gate-backed PR.
+- UI/workflow changes require sandbox browser validation and screenshot review before merge.
+- Do not advance a milestone while its quality gate is open.
 
 ## Validation
 
