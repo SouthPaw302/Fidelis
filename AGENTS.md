@@ -8,7 +8,7 @@ Do not optimize merely for a prettier waveform. Preserve the musical performance
 
 ## Before changing code
 
-1. Read `README.md`.
+1. Read `README.md`.\n2. Read `docs/DEVELOPMENT_PLAN.md`.\n3. Read `docs/TESTING.md`.\n4. Check `docs/QUALITY_GATE_PREALPHA.md` while the project is pre-pre-alpha.
 2. Read `docs/ARCHITECTURE.md`.
 3. Read `docs/PERFORMANCE_SCHEMA.md` if touching analysis or render adapters.
 4. Read `docs/ENGINE_REGISTRY.md` if adding/changing engines.
@@ -32,7 +32,7 @@ Do not optimize merely for a prettier waveform. Preserve the musical performance
 - Record model/revision/adapter identity in generated manifests.
 - Do not label heuristic articulation estimates as factual bowing/fingering data.
 - Prefer versioned JSON contracts between stages.
-- Keep browser v0 functional without credentials.
+- Keep browser v0 functional without credentials.\n- Do not develop features directly on `main`; use a task branch and a gate-backed PR.\n- UI/workflow changes require sandbox browser validation and screenshot review before merge.\n- Do not advance a milestone while its quality gate is open.
 
 ## Validation
 
@@ -49,4 +49,4 @@ node --check src/orchestrator/deepseek.js
 python -m http.server 4173
 ```
 
-Then load the app and test an audio file if a browser/runtime is available.
+Then run the mandatory sandbox browser gate in `docs/TESTING.md`. If the sandbox blocks localhost navigation, use the documented in-browser injection workaround. A browser/runtime check is required for UI/workflow changes, not optional.

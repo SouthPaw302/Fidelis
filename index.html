@@ -26,11 +26,11 @@
     </header>
 
     <nav class="deck-tabs" aria-label="Fidelis workflow">
-      <button class="stage active" data-stage="input"><span>01</span> DECOMPILE</button>
-      <button class="stage" data-stage="analyze"><span>02</span> PARTS</button>
-      <button class="stage" data-stage="route"><span>03</span> REBUILD</button>
-      <button class="stage" data-stage="render"><span>04</span> RENDER</button>
-      <button class="stage" data-stage="compare"><span>05</span> COMPARE</button>
+      <div class="stage active" data-stage="input" aria-current="step"><span>01</span> DECOMPILE</div>
+      <div class="stage" data-stage="analyze"><span>02</span> PARTS</div>
+      <div class="stage" data-stage="route"><span>03</span> REBUILD</div>
+      <div class="stage" data-stage="render"><span>04</span> RENDER</div>
+      <div class="stage" data-stage="compare"><span>05</span> COMPARE</div>
     </nav>
 
     <main class="deck-main">
@@ -71,7 +71,7 @@
                 <option value="piano">Piano / keys stem</option>
                 <option value="drums">Drums / percussion stem</option>
                 <option value="vocals">Vocals stem</option>
-                <option value="unknown">Full mix / unknown</option>
+                <option value="unknown">Full mix / unknown [preview analysis]</option>
               </select>
             </label>
             <label class="deck-field">SCAN DEPTH
@@ -105,7 +105,7 @@
             <div class="telemetry"><span>RMS</span><strong id="metricRms">--</strong><small>ENERGY</small></div>
             <div class="telemetry"><span>CREST</span><strong id="metricCrest">--</strong><small>RATIO</small></div>
             <div class="telemetry"><span>PITCH FRAMES</span><strong id="metricPitch">--</strong><small>VOICED</small></div>
-            <div class="telemetry"><span>PARTS FOUND</span><strong id="metricNotes">--</strong><small>EVENTS</small></div>
+            <div class="telemetry"><span>EVENTS FOUND</span><strong id="metricNotes">--</strong><small>GESTURES</small></div>
           </div>
           <div class="scope-note">
             <b>CURRENT CAPABILITY</b>
@@ -117,17 +117,17 @@
       <section class="deck-grid secondary-grid">
         <div class="deck-panel parts-deck">
           <div class="panel-titlebar">
-            <div><span class="panel-code">PRT-03</span><h2>Recovered Parts</h2></div>
+            <div><span class="panel-code">PRT-03</span><h2>Recovered Performance Events</h2></div>
             <button id="exportBtn" class="deck-button tiny" disabled>EXPORT MAP</button>
           </div>
           <div id="performanceEmpty" class="empty-state">
             <span class="empty-glyph">⌁</span>
-            <strong>NO DECOMPILED PARTS</strong>
+            <strong>NO PERFORMANCE EVENTS</strong>
             <small>Run DECOMPILE SOURCE to recover performance events.</small>
           </div>
           <div id="performanceTableWrap" class="table-wrap" hidden>
             <table>
-              <thead><tr><th>T</th><th>PART</th><th>LEN</th><th>DYNAMICS</th><th>VIBRATO</th><th>TRANSITION</th></tr></thead>
+              <thead><tr><th>T</th><th>NOTE</th><th>LEN</th><th>DYNAMICS</th><th>VIBRATO</th><th>TRANSITION</th></tr></thead>
               <tbody id="performanceRows"></tbody>
             </table>
           </div>
