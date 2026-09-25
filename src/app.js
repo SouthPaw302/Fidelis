@@ -221,7 +221,8 @@ function setStage(active, doneThrough) {
   const order = ['input', 'analyze', 'route', 'render', 'compare'];
   document.querySelectorAll('.stage').forEach(button => {
     const id = button.dataset.stage;
-    button.classList.toggle('active', id === active);\n    if (id === active) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
+    button.classList.toggle('active', id === active);
+    if (id === active) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
     if (doneThrough) button.classList.toggle('done', order.indexOf(id) < order.indexOf(doneThrough));
     else if (order.indexOf(id) < order.indexOf(active)) button.classList.add('done');
   });
