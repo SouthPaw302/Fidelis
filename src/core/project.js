@@ -59,22 +59,41 @@ export function addSuppliedStem(project, asset, { instrument = 'unknown', label 
   if (!project.source.suppliedStemAssetIds.includes(normalized.id)) {
     project.source.suppliedStemAssetIds.push(normalized.id);
   }
-
-  const part = {
-    id: makeId('part', normalized.id),
-    label: label || normalized.fileName || instrument,
+  return upsertPartForAsset(project, normalized, {
     instrument,
+    label,
     origin: 'supplied-stem',
-    sourceAssetId: normalized.id,
     status: 'available',
-    performance: null,
-    renderer: { status: 'unassigned', adapterId: null, preset: null },
-    reconstruction: { status: 'not-started', assetId: null },
-  };
-  const existing = project.parts.findIndex(item => item.sourceAssetId === normalized.id);
-  if (existing >= 0) project.parts[existing] = part;
-  else project.parts.push(part);
-  return part;
+  });
+}
+
+export function addDecomposedStem(project, asset, {
+  instrument = 'unknown',
+  label,
+  decompositionRunId = null,
+  confidence = null,
+  adapterId = null,
+} = {}) {
+  assertProject(project);
+  const normalized = normalizeAsset({
+    ...asset,
+    origin: asset.origin || 'source-decomposer',
+  }, 'decomposed-stem');
+  normalized.provenance.decompositionRunId = decompositionRunId;
+  normalized.provenance.adapterId = adapterId;
+  if (confidence !== null && confidence !== undefined) {
+    normalized.provenance.confidence = round(confidence, 4);
+  }
+  upsertAsset(project, normalized);
+
+  return upsertPartForAsset(project, normalized, {
+    instrument,
+    label,
+    origin: 'decomposed',
+    status: 'recovered-audio',
+    decompositionRunId,
+    confidence,
+  });
 }
 
 export function attachRecoveredPart(project, {
@@ -205,6 +224,35 @@ function upsertAsset(project, asset) {
   const index = project.assets.findIndex(item => item.id === asset.id);
   if (index >= 0) project.assets[index] = asset;
   else project.assets.push(asset);
+}
+
+function upsertPartForAsset(project, asset, {
+  instrument = 'unknown',
+  label,
+  origin,
+  status,
+  decompositionRunId = null,
+  confidence = null,
+} = {}) {
+  const part = {
+    id: makeId('part', asset.id),
+    label: label || asset.fileName || instrument,
+    instrument,
+    origin,
+    sourceAssetId: asset.id,
+    status,
+    decomposition: decompositionRunId ? {
+      runId: decompositionRunId,
+      confidence: confidence === null || confidence === undefined ? null : round(confidence, 4),
+    } : null,
+    performance: null,
+    renderer: { status: 'unassigned', adapterId: null, preset: null },
+    reconstruction: { status: 'not-started', assetId: null },
+  };
+  const existing = project.parts.findIndex(item => item.sourceAssetId === asset.id);
+  if (existing >= 0) project.parts[existing] = part;
+  else project.parts.push(part);
+  return part;
 }
 
 function assertProject(project) {
