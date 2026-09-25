@@ -61,7 +61,7 @@ async function loadFile(file) {
   state.objectUrl = URL.createObjectURL(file);
   els.preview.src = state.objectUrl;
   els.fileState.textContent = file.name;
-  els.fileState.className = 'badge';
+  els.fileState.className = 'deck-badge';
   log('INPUT', `${file.name} loaded (${formatBytes(file.size)}). Decoding audio…`);
 
   try {
@@ -74,20 +74,22 @@ async function loadFile(file) {
     els.analyze.disabled = false;
     els.metrics.duration.textContent = `${state.buffer.duration.toFixed(2)} s`;
     els.metrics.rate.textContent = `${(state.buffer.sampleRate / 1000).toFixed(1)} kHz`;
+    const waveState = document.querySelector('#waveState');
+    if (waveState) waveState.textContent = 'SOURCE LOCKED';
     log('DECODE', `${state.buffer.numberOfChannels} channel(s) at ${state.buffer.sampleRate} Hz. Ready for performance analysis.`);
     setStage('input', 'analyze');
   } catch (error) {
     log('ERROR', `Could not decode this audio file: ${error.message}`);
     els.fileState.textContent = 'Decode failed';
-    els.fileState.className = 'badge';
+    els.fileState.className = 'deck-badge';
   }
 }
 
 async function runAnalysis() {
   if (!state.buffer || !state.file) return;
   els.analyze.disabled = true;
-  els.analyze.textContent = 'Analyzing…';
-  log('ANALYZE', `Running ${els.depth.value} performance analysis for ${els.instrument.value}.`);
+  els.analyze.textContent = 'DECOMPILING…';
+  log('DECOMP', `Running ${els.depth.value} decompile pass for ${els.instrument.value}.`);
   setStage('analyze');
 
   await new Promise(resolve => setTimeout(resolve, 35));
@@ -112,14 +114,14 @@ async function runAnalysis() {
     }));
 
     els.export.disabled = false;
-    log('PERF', `${result.notes.length} note gesture(s) and ${result.pitchFrames.length} voiced pitch frame(s) extracted.`);
+    log('PARTS', `${result.notes.length} recovered event(s) and ${result.pitchFrames.length} voiced pitch frame(s) mapped.`);
     log('JEV', 'Reconstruction routes ranked from current evidence. External engine adapters can replace the deterministic v0 router later.');
     setStage('route');
   } catch (error) {
     log('ERROR', `Analysis failed: ${error.message}`);
   } finally {
     els.analyze.disabled = false;
-    els.analyze.textContent = 'Analyze performance';
+    els.analyze.textContent = 'DECOMPILE SOURCE';
   }
 }
 
@@ -143,7 +145,7 @@ function renderRoutes(routes) {
     </article>`).join('');
 
   els.routeState.textContent = routes[0] ? `Primary: ${routes[0].name}` : 'No route';
-  els.routeState.className = 'badge';
+  els.routeState.className = 'deck-badge';
 }
 
 function renderPerformance(notes) {
@@ -190,7 +192,7 @@ function exportPerformance() {
   anchor.click();
   anchor.remove();
   URL.revokeObjectURL(url);
-  log('EXPORT', 'performance.json exported. This is the stable handoff format for render adapters.');
+  log('EXPORT', 'Performance map exported for rebuild/render adapters.');
 }
 
 function resetAnalysis() {
@@ -202,7 +204,7 @@ function resetAnalysis() {
   els.performanceRows.innerHTML = '';
   els.routeCards.innerHTML = '';
   els.routeState.textContent = 'Awaiting analysis';
-  els.routeState.className = 'badge neutral';
+  els.routeState.className = 'deck-badge muted';
   els.metrics.rms.textContent = '—';
   els.metrics.crest.textContent = '—';
   els.metrics.pitch.textContent = '—';
