@@ -1,6 +1,6 @@
 # Fidelis Development Plan
 
-Fidelis is currently **pre-pre-alpha**. The project does not advance to the next milestone until the current quality gate passes.
+Fidelis is currently **pre-alpha**. Every milestone remains gate-controlled; a later label does not relax validation.
 
 ## Product target
 
@@ -103,23 +103,10 @@ The interface must distinguish:
 
 Do not make a route look executable if it is only registered.
 
-## Next milestone
+## Milestone state
 
-Only after this gate is accepted:
+- Pre-pre-alpha chassis gate: **PASS**
+- v0.2 Decompile Project Model gate: **PASS**
+- Next milestone: **v0.3 Source Decomposition**
 
-**Decompile Project Model v0.2**
-
-The next architecture must represent a whole musical project rather than a single monophonic note stream:
-
-- source mix;
-- optional supplied stems;
-- detected/recovered parts;
-- timeline;
-- tempo/beat/phrase map;
-- performance documents per part;
-- renderer assignment per part;
-- reconstructed assets;
-- mix/reassembly manifest;
-- provenance and QC.
-
-No renderer integration should bypass that project model.
+v0.3 must recover candidate parts from a full mix through a real decomposition adapter, preserve confidence/provenance, and let the project model accept/reject/replace those parts. It must not bypass `fidelis.project.v0.2`.
