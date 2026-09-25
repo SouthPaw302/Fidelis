@@ -129,3 +129,35 @@ td{padding:9px 8px;border-bottom:1px solid #14232b;color:#7c99a4}td.note-name{co
   .engine strong{font-size:11px}.engine small{font-size:10px}.run-log span{font-size:10px}
   .deck-footer{height:auto;gap:7px;flex-direction:column;align-items:flex-start;padding:9px 10px}
 }
+
+.stem-loader{display:flex;align-items:center;gap:10px;padding:0 14px 12px}
+.stem-loader span{font-size:8px;letter-spacing:.12em;color:#55717d}
+.stem-button{display:inline-flex;align-items:center;justify-content:center}
+.project-core{margin-top:10px}
+.panel-actions{display:flex;align-items:center;gap:8px}
+.project-summary{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:#17252d;border-bottom:1px solid var(--line)}
+.project-summary>div{background:#071015;padding:10px 12px;min-height:66px}
+.project-summary span{display:block;font-size:8px;letter-spacing:.12em;color:#48616d}
+.project-summary strong{display:block;margin-top:9px;font-size:13px;color:#b9e9f1;text-transform:uppercase}
+.project-part-list{padding:10px 14px 14px;display:grid;gap:5px}
+.project-part{display:grid;grid-template-columns:minmax(140px,1.3fr) .7fr .8fr .9fr .9fr;gap:8px;align-items:center;border:1px solid #1b3039;background:#070e13;padding:8px 10px;font-size:9px}
+.project-part strong{color:#b4d8e0;font-size:10px}
+.project-part span{color:#607b86}
+.project-part .mapped{color:var(--green)}
+.project-part .pending{color:var(--amber)}
+.project-empty{color:#4c6570;font-size:9px;letter-spacing:.08em;padding:6px 0}
+.project-warning{border-left:2px solid var(--amber);background:rgba(255,200,87,.035);color:#9d8550;padding:10px 12px;font-size:10px;line-height:1.5}
+@media(max-width:1050px){
+  .project-summary{grid-template-columns:repeat(3,1fr)}
+  .project-part{grid-template-columns:1.4fr .7fr .8fr}
+  .project-part span:nth-of-type(n+3){display:none}
+}
+@media(max-width:700px){
+  .stem-loader{align-items:stretch;flex-direction:column}
+  .stem-loader span{font-size:9px}
+  .project-summary{grid-template-columns:repeat(2,1fr)}
+  .project-summary span{font-size:9px}.project-summary strong{font-size:12px}
+  .panel-actions{gap:5px}.panel-actions .deck-badge{display:none}
+  .project-part{grid-template-columns:1.3fr .7fr;font-size:10px}
+  .project-part span:nth-of-type(n+2){display:none}
+}
