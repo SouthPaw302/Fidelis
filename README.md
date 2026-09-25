@@ -1,108 +1,124 @@
 # Fidelis
 
-**Performance-preserving instrument reconstruction for AI-generated music.**
+**Performance-preserving decompilation and instrument reconstruction for AI-generated music.**
 
-Fidelis treats an AI-generated instrument stem as a **performance blueprint**, not necessarily as the final waveform. The goal is to preserve musical intent — notes, pitch movement, dynamics, vibrato, slides, timing, articulation — and let interchangeable renderers rebuild the instrument at higher fidelity.
+Fidelis treats generated audio as a musical system that can be recovered, described and rebuilt. A stem is useful when available, but the product target is broader:
 
-## What v0.1 does today
+```text
+full song or stems
+  -> project model
+  -> recover parts + performance
+  -> assign improved renderers
+  -> reconstruct parts
+  -> reassemble song
+  -> compare / QC
+```
 
-- Runs as a dependency-free browser app suitable for **Vercel, Netlify, GitHub Pages, or any static host**.
-- Accepts an isolated audio stem (WAV preferred).
-- Decodes and analyzes the audio locally in the browser.
-- Extracts a first-pass monophonic pitch contour and note gestures.
-- Estimates dynamics, attack character, slide direction, vibrato rate/depth, RMS and crest factor.
-- Produces a versioned `performance.json` handoff document.
-- Uses a deterministic **Jev-compatible route judge** to recommend reconstruction families.
-- Documents adapters for RAVE, BRAVE, Sony Diffusion Timbre Transfer, WaveTransfer, Google DDSP, MIDI-DDSP, Basic Pitch, STRAdi and Instrudio.
-- Reuses architecture patterns from the broader SouthPaw302 ecosystem without coupling Fidelis to those projects.
+## Current state — v0.2 pre-alpha
 
-> v0.1 is a proof-of-concept analyzer and orchestration shell. It does **not** pretend the heuristic browser analyzer replaces STRAdi, Basic Pitch, DDSP, RAVE, BRAVE or a production physical renderer. Those are deliberately adapter slots.
+The current build is a tested **project/decompilation chassis**, not a finished restoration engine.
+
+Working now:
+
+- independent browser app suitable for Vercel, Netlify or static hosting;
+- full-mix or isolated-stem primary source intake;
+- optional multi-file supplied-stem attachment;
+- versioned `fidelis.project.v0.2` whole-song project document;
+- source assets, parts, timeline shell, renderer assignments, reconstruction state, reassembly manifest and QC state;
+- deterministic browser analysis for isolated monophonic stems;
+- pitch contour, note/performance events, dynamics, attack, slide and vibrato hints;
+- versioned `fidelis.performance.v0.1` documents attached to project parts;
+- Jev-compatible bounded route ranking;
+- DeepSeek Harness handoff contract;
+- project and performance JSON export;
+- cyberpunk reconstruction-deck GUI;
+- strict sandbox/browser quality gates.
+
+Not implemented yet:
+
+- automatic source separation from a full mix;
+- polyphonic instrument recovery;
+- executable RAVE / BRAVE / DDSP / STRAdi / Instrudio adapters;
+- reconstructed audio output;
+- final mix/reassembly rendering;
+- objective A/B quality scoring.
+
+Fidelis explicitly labels those capabilities as pending rather than simulating them.
 
 ## Why this architecture
 
-The fidelity problem is not always solved by mastering. A generated fiddle can have the right melody and expression while the waveform itself has smeared transients, simplified harmonics or synthetic high-frequency texture. Fidelis separates two questions:
+Mastering cannot recover acoustic information that never existed in the generated waveform. Fidelis therefore separates:
 
-1. **What was the performance?**
-2. **What should render that performance?**
+1. **the song/project** — source, parts, timing, provenance, reconstruction and reassembly state;
+2. **the performance** — pitch motion, note events, dynamics, articulation evidence and expression;
+3. **the renderer** — replaceable timbre-transfer, DDSP, physical-model or sample-based engines.
 
-That makes this possible:
+A renderer never owns the project. Engines are adapters behind stable contracts.
 
-```text
-AI stem
-  ↓
-performance extraction
-  ↓
-performance.json
-  ↓
-route / renderer adapter
-  ↓
-new high-fidelity stem
-  ↓
-A/B + QC
-```
+## Run
 
-## Run locally
-
-No build system is required.
+No build step is required.
 
 ```bash
 python -m http.server 4173
 # open http://localhost:4173
 ```
 
-You can also use any static web server.
+Validation:
+
+```bash
+npm run check
+npm test
+```
+
+UI/workflow changes additionally require the sandbox browser gate in [`docs/TESTING.md`](docs/TESTING.md).
 
 ## Deploy
 
 ### Vercel
 
-Import `SouthPaw302/Fidelis`. There is no build command; the repository root is the published site.
+Import `SouthPaw302/Fidelis`. The repository root is the site; there is no frontend build command.
 
 ### Netlify
 
-Import the repository. `netlify.toml` publishes the repository root directly.
+Import the repository. `netlify.toml` publishes the repository root.
 
-See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the worker architecture used when heavyweight models are attached.
+Heavy model workers may run elsewhere behind adapter/job contracts. The browser application remains the independent control surface.
 
-## Core reconstruction routes
+## Engine families
 
-| Route | Systems | Purpose |
+| Family | Systems | Role |
 | --- | --- | --- |
-| Direct timbre transfer | RAVE / Scyclone, BRAVE, Sony Diffusion, WaveTransfer | Preserve source timing and phrasing with minimal symbolic interpretation. |
-| Structured synthesis | Google DDSP | Extract continuous controls and rebuild timbre through a structured synthesizer. |
-| Performance reconstruction | STRAdi / Basic Pitch → Fidelis → Instrudio / other renderer | Discard the source waveform and preserve the musical gesture instead. |
+| Direct timbre transfer | RAVE / Scyclone, BRAVE, Sony Diffusion, WaveTransfer | Preserve source phrasing while replacing timbre. |
+| Structured synthesis | Google DDSP / MIDI-DDSP concepts | Separate continuous performance controls from synthesis. |
+| Transcription | Basic Pitch, STRAdi | Recover notes, pitch movement and performance evidence. |
+| Physical/sample reconstruction | Instrudio, future sample/VST workers | Build a new waveform from recovered performance. |
 
-## Existing ecosystem we reuse
+Existing SouthPaw302 systems are **reuse sources**, not runtime requirements:
 
-Fidelis stays independent, but proven patterns/code can be adapted from:
-
-- **LibertyDJ** — local model workers, ONNX/WebGPU/WASM execution, model health/fallbacks, audio intelligence.
-- **LibertasDesktop** — native PCM, 48 kHz audio, aligned stem playback, DSP/routing.
-- **AIVideoEdit** — deterministic FFT/onset/energy/phrase analysis and QC patterns.
-- **DeepSeek Harness** — optional planning/orchestration layer.
-- **Jev** — bounded judgement/routing role; Fidelis v0 includes a deterministic contract-compatible fallback.
+- **LibertyDJ** — model-worker and musical-analysis patterns;
+- **LibertasDesktop** — PCM, aligned stems, DSP and routing patterns;
+- **AIVideoEdit** — deterministic analysis/QC/orchestration patterns;
+- **DeepSeek Harness** — optional planning/orchestration;
+- **Jev** — bounded decision/judgement role.
 
 ## Repository map
 
 ```text
-index.html                    GUI / application shell
-styles.css                    Fidelis visual system
-src/audio/                    deterministic browser audio analysis
-src/core/schema.js            performance.json contract
-src/core/jev.js               bounded route judgement
-src/core/engines.js           engine and route registry
-src/orchestrator/             external harness adapters
-src/ui/                       waveform/UI helpers
-docs/                         architecture, agents, deployment, schemas
+index.html
+styles.css
+src/
+  app.js
+  audio/
+  core/
+    project.js       whole-song project contract
+    schema.js        performance contract
+    engines.js
+    jev.js
+  orchestrator/
+  ui/
+tests/
+docs/
 ```
 
-## Project principles
-
-1. **Independent product, interoperable ecosystem.**
-2. **Adapter-first.** No single research repository becomes the architecture.
-3. **Deterministic execution below model judgement.**
-4. **Performance data is a stable artifact.** Renderers are replaceable.
-5. **Never silently claim a heuristic estimate is ground truth.** Confidence and limitations travel with the artifact.
-6. **Browser UI stays usable even when heavyweight workers are unavailable.**
-
-Start with [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`AGENTS.md`](AGENTS.md).
+Start with [`docs/DEVELOPMENT_PLAN.md`](docs/DEVELOPMENT_PLAN.md), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/PROJECT_SCHEMA.md`](docs/PROJECT_SCHEMA.md) and [`AGENTS.md`](AGENTS.md).
