@@ -4,7 +4,8 @@
   --amber:#ffc857;--red:#ff4d5f;--green:#5dffb5;--shadow:rgba(38,247,255,.16);
   font-family:"Segoe UI",ui-monospace,SFMono-Regular,Consolas,monospace;color-scheme:dark
 }
-*{box-sizing:border-box}\n[hidden]{display:none!important}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
 html{background:var(--bg)}
 body{margin:0;background:
 linear-gradient(rgba(8,18,24,.4),rgba(4,7,10,.9)),
