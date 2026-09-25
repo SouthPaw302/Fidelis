@@ -275,7 +275,7 @@ function prepareFullMixProject() {
   els.performanceEmpty.innerHTML = '<span class="empty-glyph">⌁</span><strong>FULL-MIX PROJECT REGISTERED</strong><small>Automatic source separation / polyphonic part recovery requires a real decomposition adapter. Supplied stems can be attached now.</small>';
   els.performanceEmpty.hidden = false;
   els.performanceWrap.hidden = true;
-  els.routeState.textContent = 'DECOMPOSITION ADAPTER REQUIRED';
+  els.routeState.textContent = 'DECOMP ADAPTER REQUIRED';
   els.routeState.className = 'deck-badge muted';
   els.routeCards.innerHTML = `
     <article class="route-card">
