@@ -1,5 +1,6 @@
 [build]
-  publish = "."
+  command = "python scripts/build_frontend.py"
+  publish = "dist"
 
 [[headers]]
   for = "/*"

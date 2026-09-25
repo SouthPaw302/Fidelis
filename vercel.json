@@ -1,13 +1,28 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "python scripts/build_frontend.py",
+  "functions": {
+    "app.py": {
+      "maxDuration": 60,
+      "excludeFiles": "{backend/tests/**,tests/**,runtime*/**,backend/runtime*/**,evidence/**,**/*.png,**/*.wav,**/*.flac,**/*.mp3,**/*.m4a,**/*.ogg,**/*.th,**/*.pt,**/*.pth,**/*.ckpt,**/*.onnx}"
+    }
+  },
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
       ]
     }
-  ]
+  ],
+  "framework": "fastapi"
 }

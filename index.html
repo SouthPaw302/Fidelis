@@ -15,13 +15,13 @@
         <div class="sigil">FID</div>
         <div>
           <div class="brand">FIDELIS</div>
-          <div class="tagline">MUSICAL SYSTEM RECONSTRUCTION DECK // V0.2 PRE-ALPHA</div>
+          <div class="tagline">MUSICAL SYSTEM RECONSTRUCTION DECK // BACKEND PRE-ALPHA</div>
         </div>
       </div>
       <div class="top-status">
-        <div class="sys-pill"><span class="pulse"></span> CORE ONLINE</div>
+        <div id="backendState" class="sys-pill"><span class="pulse"></span> BACKEND CONNECTING</div>
         <div class="sys-readout">MODE <b>INDEPENDENT</b></div>
-        <div class="sys-readout">BUILD <b>0.2-PRE</b></div>
+        <div class="sys-readout">BUILD <b>BACKEND-PRE</b></div>
       </div>
     </header>
 
@@ -71,7 +71,7 @@
                 <option value="piano">Piano / keys stem</option>
                 <option value="drums">Drums / percussion stem</option>
                 <option value="vocals">Vocals stem</option>
-                <option value="unknown">Full mix / unknown [preview analysis]</option>
+                <option value="unknown">Full mix / unknown</option>
               </select>
             </label>
             <label class="deck-field">SCAN DEPTH
@@ -115,7 +115,7 @@
           </div>
           <div class="scope-note">
             <b>CURRENT CAPABILITY</b>
-            <p>v0.2 can register a full mix, attach supplied stems, build a whole-song project contract, and map a monophonic stem into performance data. Automatic source separation, polyphonic recovery, renderer execution, and final reassembly are not implemented yet.</p>
+            <p>The FastAPI backend is authoritative for projects, jobs, artifacts, routing, rendering, QC and reassembly. Full-mix separation uses a capability-gated decomposer; missing model weights are reported as blocked rather than simulated.</p>
           </div>
         </aside>
       </section>
@@ -125,6 +125,7 @@
           <div><span class="panel-code">PRJ-03</span><h2>Project Core</h2></div>
           <div class="panel-actions">
             <span id="projectState" class="deck-badge muted">NO PROJECT</span>
+            <button id="autopilotBtn" class="deck-button tiny" disabled>AUTOPILOT</button>
             <button id="exportProjectBtn" class="deck-button tiny" disabled>EXPORT PROJECT</button>
           </div>
         </div>
@@ -136,6 +137,7 @@
           <div><span>PERFORMANCE MAPS</span><strong id="projectMaps">0</strong></div>
           <div><span>REASSEMBLY</span><strong id="projectReassembly">--</strong></div>
         </div>
+        <div class="project-part-help">CHOOSE A PART BELOW TO CONTINUE → ANALYZE → REBUILD → RENDER</div>
         <div id="projectPartList" class="project-part-list">
           <div class="project-empty">Project structure appears here after source/stems are loaded.</div>
         </div>
@@ -169,18 +171,59 @@
         </aside>
       </section>
 
+      <section class="deck-grid secondary-grid render-compare-grid">
+        <div class="deck-panel render-deck">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">RND-06</span><h2>Backend Render</h2></div>
+            <span id="renderState" class="deck-badge muted">ROUTE NOT ARMED</span>
+          </div>
+          <div class="render-workspace">
+            <div id="renderPlan" class="render-plan">Jev will arm the selected backend renderer. If only the reference renderer is ready, fallback status remains explicit.</div>
+            <button id="renderCandidateBtn" class="deck-button primary" disabled>RENDER CANDIDATE</button>
+          </div>
+        </div>
+
+        <aside class="deck-panel compare-deck">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">CMP-07</span><h2>A/B Compare</h2></div>
+            <span id="compareState" class="deck-badge muted">NO CANDIDATE</span>
+          </div>
+          <div class="compare-workspace">
+            <div class="ab-bank">
+              <button id="abSourceBtn" class="deck-button ghost" disabled>A // SOURCE</button>
+              <button id="abCandidateBtn" class="deck-button ghost" disabled>B // CANDIDATE</button>
+            </div>
+            <div class="candidate-readout">
+              <span>CANDIDATE</span>
+              <strong id="candidateMetrics">--</strong>
+            </div>
+            <audio id="candidateAudio" controls hidden></audio>
+            <button id="downloadCandidateBtn" class="deck-button tiny" disabled>DOWNLOAD CANDIDATE WAV</button>
+            <div class="master-bank">
+              <button id="reassembleBtn" class="deck-button ghost" disabled>REASSEMBLE PROJECT</button>
+              <button id="downloadMasterBtn" class="deck-button tiny" disabled>DOWNLOAD MASTER</button>
+            </div>
+            <div id="masterState" class="master-state">NO MASTER</div>
+          </div>
+        </aside>
+      </section>
+
       <section class="deck-grid tertiary-grid">
         <div class="deck-panel engine-panel">
           <div class="panel-titlebar">
-            <div><span class="panel-code">ENG-06</span><h2>Engine Bay</h2></div>
-            <span class="deck-badge">ADAPTER BUS</span>
+            <div><span class="panel-code">ENG-08</span><h2>Engine Bay</h2></div>
+            <div class="panel-actions">
+              <input id="demucsCheckpointFile" type="file" accept=".th,.pt,.pth,application/octet-stream" hidden />
+              <button id="demucsImportBtn" class="deck-button tiny">IMPORT HTDEMUCS MODEL</button>
+              <span class="deck-badge">ADAPTER BUS</span>
+            </div>
           </div>
           <div id="engineGrid" class="engine-grid"></div>
         </div>
 
         <aside class="deck-panel console-panel">
           <div class="panel-titlebar">
-            <div><span class="panel-code">SYS-07</span><h2>Deck Console</h2></div>
+            <div><span class="panel-code">SYS-09</span><h2>Deck Console</h2></div>
             <span class="deck-badge">TRACE</span>
           </div>
           <div id="runLog" class="run-log" aria-live="polite">
@@ -193,7 +236,7 @@
     </main>
 
     <footer class="deck-footer">
-      <span>FIDELIS // V0.2 PRE-ALPHA</span>
+      <span>FIDELIS // BACKEND PRE-ALPHA</span>
       <span>DECOMPILE → PARTS → REBUILD → RENDER → COMPARE</span>
     </footer>
   </div>

@@ -1,0 +1,14 @@
+runtime*/
+backend/runtime*/
+*.wav
+*.flac
+*.mp3
+*.m4a
+*.ogg
+*.th
+*.pt
+*.pth
+*.ckpt
+*.onnx
+backend-authority-*.png
+__pycache__/

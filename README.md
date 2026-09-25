@@ -1,124 +1,120 @@
 # Fidelis
 
-**Performance-preserving decompilation and instrument reconstruction for AI-generated music.**
+**Performance-preserving decompilation and instrument reconstruction for generated music.**
 
-Fidelis treats generated audio as a musical system that can be recovered, described and rebuilt. A stem is useful when available, but the product target is broader:
+Fidelis treats generated audio as a musical system that can be recovered, described, rerendered and reassembled. Stems are useful when available, but they are not required by the architecture.
 
 ```text
-full song or stems
-  -> project model
-  -> recover parts + performance
-  -> assign improved renderers
-  -> reconstruct parts
-  -> reassemble song
-  -> compare / QC
+full mix or stems
+  -> authoritative project model
+  -> source decomposition / supplied parts
+  -> performance extraction
+  -> Jev route decision
+  -> renderer / timbre-transfer worker
+  -> QC
+  -> reassembly
 ```
 
-## Current state — v0.2 pre-alpha
+## Current checkpoint — backend pre-alpha
 
-The current build is a tested **project/decompilation chassis**, not a finished restoration engine.
+The sandbox build now has a real FastAPI backend and a cyberpunk deck that uses it as project authority.
 
-Working now:
+Working and tested:
 
-- independent browser app suitable for Vercel, Netlify or static hosting;
-- full-mix or isolated-stem primary source intake;
-- optional multi-file supplied-stem attachment;
-- versioned `fidelis.project.v0.2` whole-song project document;
-- source assets, parts, timeline shell, renderer assignments, reconstruction state, reassembly manifest and QC state;
-- deterministic browser analysis for isolated monophonic stems;
-- pitch contour, note/performance events, dynamics, attack, slide and vibrato hints;
-- versioned `fidelis.performance.v0.1` documents attached to project parts;
-- Jev-compatible bounded route ranking;
-- DeepSeek Harness handoff contract;
-- project and performance JSON export;
-- cyberpunk reconstruction-deck GUI;
-- strict sandbox/browser quality gates.
+- whole-song projects, assets, parts, jobs and artifacts;
+- SQLite development persistence and SHA-256 artifact provenance;
+- full-mix or isolated-stem intake;
+- supplied-stem attachment;
+- native monophonic performance extraction using librosa pYIN plus deterministic gesture analysis;
+- Jev bounded route selection;
+- **Instrudio Studio Violin native backend adapter**, translated from the MIT-licensed upstream physical-model contract;
+- Fidelis native physical-violin comparator;
+- explicit reference synth fallback for pipeline testing;
+- objective QC reports;
+- reconstructed/original part selection and stereo reassembly;
+- DeepSeek Harness planning seam plus MCP stdio bridge;
+- external worker protocol for Demucs, Basic Pitch, STRAdi, DDSP, RAVE/Scyclone, BRAVE, Sony Diffusion, WaveTransfer and Instrudio;
+- browser deck wired to backend authority through Steps 1–5;
+- desktop and 390px mobile browser gates.
 
-Not implemented yet:
+Current sandbox blocker:
 
-- automatic source separation from a full mix;
-- polyphonic instrument recovery;
-- executable RAVE / BRAVE / DDSP / STRAdi / Instrudio adapters;
-- reconstructed audio output;
-- final mix/reassembly rendering;
-- objective A/B quality scoring.
+- Demucs 4 is installed, but the verified HTDemucs checkpoint is not cached and this sandbox cannot download it. Fidelis reports the capability as `blocked` and can import the official checkpoint through the UI/API rather than fabricating stems.
 
-Fidelis explicitly labels those capabilities as pending rather than simulating them.
+## Run locally
 
-## Why this architecture
-
-Mastering cannot recover acoustic information that never existed in the generated waveform. Fidelis therefore separates:
-
-1. **the song/project** — source, parts, timing, provenance, reconstruction and reassembly state;
-2. **the performance** — pitch motion, note events, dynamics, articulation evidence and expression;
-3. **the renderer** — replaceable timbre-transfer, DDSP, physical-model or sample-based engines.
-
-A renderer never owns the project. Engines are adapters behind stable contracts.
-
-## Run
-
-No build step is required.
+Install Python dependencies, then run the backend:
 
 ```bash
-python -m http.server 4173
-# open http://localhost:4173
+pip install -r requirements.txt
+PYTHONPATH=backend python -m fidelis_backend
 ```
+
+Open `http://127.0.0.1:8787/` when running from a normal local environment. The backend serves both API and static deck.
 
 Validation:
 
 ```bash
 npm run check
 npm test
+bash backend/tests/run_all.sh
 ```
 
-UI/workflow changes additionally require the sandbox browser gate in [`docs/TESTING.md`](docs/TESTING.md).
+The browser/backend authority gate is:
 
-## Deploy
+```bash
+PYTHONPATH=backend python backend/tests/ui_backend_gate.py
+```
 
-### Vercel
+## Vercel / Netlify
 
-Import `SouthPaw302/Fidelis`. The repository root is the site; there is no frontend build command.
+The deck can be hosted independently from model workers. Same-origin API is the default. For a separate backend, set one of:
 
-### Netlify
+```js
+window.FIDELIS_CONFIG = { apiBaseUrl: 'https://your-fidelis-api.example' };
+```
 
-Import the repository. `netlify.toml` publishes the repository root.
+or visit the deck once with:
 
-Heavy model workers may run elsewhere behind adapter/job contracts. The browser application remains the independent control surface.
+```text
+?api=https://your-fidelis-api.example
+```
 
-## Engine families
+The value is stored locally in the browser for later sessions.
 
-| Family | Systems | Role |
-| --- | --- | --- |
-| Direct timbre transfer | RAVE / Scyclone, BRAVE, Sony Diffusion, WaveTransfer | Preserve source phrasing while replacing timbre. |
-| Structured synthesis | Google DDSP / MIDI-DDSP concepts | Separate continuous performance controls from synthesis. |
-| Transcription | Basic Pitch, STRAdi | Recover notes, pitch movement and performance evidence. |
-| Physical/sample reconstruction | Instrudio, future sample/VST workers | Build a new waveform from recovered performance. |
+Vercel/Netlify should be treated as the control surface unless durable database/object storage is configured. Heavy GPU/model engines belong behind the Fidelis worker protocol and can run anywhere.
 
-Existing SouthPaw302 systems are **reuse sources**, not runtime requirements:
+## Engine policy
 
-- **LibertyDJ** — model-worker and musical-analysis patterns;
-- **LibertasDesktop** — PCM, aligned stems, DSP and routing patterns;
-- **AIVideoEdit** — deterministic analysis/QC/orchestration patterns;
-- **DeepSeek Harness** — optional planning/orchestration;
-- **Jev** — bounded decision/judgement role.
+Every engine reports one of `ready`, `blocked`, `experimental`, or `unavailable`. The UI must not make an engine look executable unless its preflight is actually green.
+
+The selected route and the executing adapter are recorded separately. This lets Jev preserve the desired reconstruction strategy even when Fidelis has to use an explicit fallback.
 
 ## Repository map
 
 ```text
-index.html
+index.html                         cyberpunk reconstruction deck
 styles.css
 src/
-  app.js
-  audio/
-  core/
-    project.js       whole-song project contract
-    schema.js        performance contract
-    engines.js
-    jev.js
-  orchestrator/
-  ui/
-tests/
-docs/
+  app.js                           backend-authority UI workflow
+  backend-client.js                REST client
+  core/                            browser-side contracts / compatibility
+  audio/                           lightweight browser analysis utilities
+backend/
+  fidelis_backend/
+    api.py                         FastAPI control plane
+    storage.py                     project/job/artifact persistence
+    jobs.py                        asynchronous job runner
+    orchestrator.py                deterministic production workflow
+    registry.py                    adapter registry
+    adapters/                      models/renderers/workers
+    harness/                       Jev + DeepSeek planning seam
+    mcp_server.py                  agent/MCP bridge
+  vendor/instrudio/                MIT definition + license metadata
+  tests/                           backend / worker / MCP / browser gates
+  ARCHITECTURE.md
+  DEPLOYMENT.md
+  WORKER_PROTOCOL.md
 ```
 
-Start with [`docs/DEVELOPMENT_PLAN.md`](docs/DEVELOPMENT_PLAN.md), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/PROJECT_SCHEMA.md`](docs/PROJECT_SCHEMA.md) and [`AGENTS.md`](AGENTS.md).
+Read `AGENTS.md` before modifying the project. No stage is considered implemented until its sandbox gate passes.
