@@ -15,13 +15,13 @@
         <div class="sigil">FID</div>
         <div>
           <div class="brand">FIDELIS</div>
-          <div class="tagline">PERFORMANCE RECONSTRUCTION DECK // PRE-PRE-ALPHA</div>
+          <div class="tagline">MUSICAL SYSTEM RECONSTRUCTION DECK // V0.2 PRE-ALPHA</div>
         </div>
       </div>
       <div class="top-status">
         <div class="sys-pill"><span class="pulse"></span> CORE ONLINE</div>
         <div class="sys-readout">MODE <b>INDEPENDENT</b></div>
-        <div class="sys-readout">BUILD <b>0.1.X</b></div>
+        <div class="sys-readout">BUILD <b>0.2-PRE</b></div>
       </div>
     </header>
 
@@ -82,6 +82,12 @@
             </label>
           </div>
 
+          <div class="stem-loader">
+            <input id="stemFiles" type="file" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" multiple hidden />
+            <label class="deck-button ghost stem-button" for="stemFiles">+ ADD SUPPLIED STEMS</label>
+            <span id="stemState">0 STEMS ATTACHED</span>
+          </div>
+
           <div class="wave-shell">
             <div class="wave-header"><span>WAVEFORM // INPUT BUS</span><span id="waveState">STANDBY</span></div>
             <canvas id="waveform" width="900" height="190" aria-label="Audio waveform"></canvas>
@@ -109,15 +115,36 @@
           </div>
           <div class="scope-note">
             <b>CURRENT CAPABILITY</b>
-            <p>v0.1 can decompile a monophonic stem into pitch and gesture data. Full-song decomposition, polyphonic part recovery, real renderer execution, and automatic reassembly are the next core milestones.</p>
+            <p>v0.2 can register a full mix, attach supplied stems, build a whole-song project contract, and map a monophonic stem into performance data. Automatic source separation, polyphonic recovery, renderer execution, and final reassembly are not implemented yet.</p>
           </div>
         </aside>
+      </section>
+
+      <section class="deck-panel project-core">
+        <div class="panel-titlebar">
+          <div><span class="panel-code">PRJ-03</span><h2>Project Core</h2></div>
+          <div class="panel-actions">
+            <span id="projectState" class="deck-badge muted">NO PROJECT</span>
+            <button id="exportProjectBtn" class="deck-button tiny" disabled>EXPORT PROJECT</button>
+          </div>
+        </div>
+        <div class="project-summary">
+          <div><span>SOURCE</span><strong id="projectSource">--</strong></div>
+          <div><span>ASSETS</span><strong id="projectAssets">0</strong></div>
+          <div><span>SUPPLIED STEMS</span><strong id="projectStems">0</strong></div>
+          <div><span>PARTS</span><strong id="projectParts">0</strong></div>
+          <div><span>PERFORMANCE MAPS</span><strong id="projectMaps">0</strong></div>
+          <div><span>REASSEMBLY</span><strong id="projectReassembly">--</strong></div>
+        </div>
+        <div id="projectPartList" class="project-part-list">
+          <div class="project-empty">Project structure appears here after source/stems are loaded.</div>
+        </div>
       </section>
 
       <section class="deck-grid secondary-grid">
         <div class="deck-panel parts-deck">
           <div class="panel-titlebar">
-            <div><span class="panel-code">PRT-03</span><h2>Recovered Performance Events</h2></div>
+            <div><span class="panel-code">PRT-04</span><h2>Recovered Performance Events</h2></div>
             <button id="exportBtn" class="deck-button tiny" disabled>EXPORT MAP</button>
           </div>
           <div id="performanceEmpty" class="empty-state">
@@ -135,7 +162,7 @@
 
         <aside class="deck-panel router-deck">
           <div class="panel-titlebar">
-            <div><span class="panel-code">JEV-04</span><h2>Rebuild Router</h2></div>
+            <div><span class="panel-code">JEV-05</span><h2>Rebuild Router</h2></div>
             <span id="routeState" class="deck-badge muted">WAITING</span>
           </div>
           <div id="routeCards" class="route-stack"></div>
@@ -145,7 +172,7 @@
       <section class="deck-grid tertiary-grid">
         <div class="deck-panel engine-panel">
           <div class="panel-titlebar">
-            <div><span class="panel-code">ENG-05</span><h2>Engine Bay</h2></div>
+            <div><span class="panel-code">ENG-06</span><h2>Engine Bay</h2></div>
             <span class="deck-badge">ADAPTER BUS</span>
           </div>
           <div id="engineGrid" class="engine-grid"></div>
@@ -153,7 +180,7 @@
 
         <aside class="deck-panel console-panel">
           <div class="panel-titlebar">
-            <div><span class="panel-code">SYS-06</span><h2>Deck Console</h2></div>
+            <div><span class="panel-code">SYS-07</span><h2>Deck Console</h2></div>
             <span class="deck-badge">TRACE</span>
           </div>
           <div id="runLog" class="run-log" aria-live="polite">
@@ -166,7 +193,7 @@
     </main>
 
     <footer class="deck-footer">
-      <span>FIDELIS // PRE-PRE-ALPHA</span>
+      <span>FIDELIS // V0.2 PRE-ALPHA</span>
       <span>DECOMPILE → PARTS → REBUILD → RENDER → COMPARE</span>
     </footer>
   </div>

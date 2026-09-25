@@ -8,9 +8,9 @@ export const ENGINES = [
   { id: 'basic-pitch', name: 'Basic Pitch', type: 'transcription', mode: 'adapter', description: 'Audio-to-notes/MIDI with pitch-bend support.' },
   { id: 'stradi', name: 'STRAdi', type: 'violin transcription', mode: 'adapter', description: 'Violin-specific transcription path for fiddle/violin stems.' },
   { id: 'instrudio', name: 'Instrudio Violin', type: 'physical renderer', mode: 'adapter', description: 'Physical violin controls: bow, vibrato, portamento and articulation.' },
-  { id: 'libertydj', name: 'LibertyDJ Intelligence', type: 'ecosystem', mode: 'available', description: 'ONNX/WebGPU/WASM worker patterns, beat and semantic analysis.' },
-  { id: 'libertas', name: 'LibertasDesktop', type: 'ecosystem', mode: 'available', description: 'Native PCM, aligned stems, DSP and 48 kHz rendering chassis.' },
-  { id: 'aivideoedit', name: 'AIVideoEdit', type: 'ecosystem', mode: 'available', description: 'FFT, onset, energy, phrase/QC and orchestration utilities.' },
+  { id: 'libertydj', name: 'LibertyDJ Intelligence', type: 'ecosystem', mode: 'reuse', description: 'ONNX/WebGPU/WASM worker patterns, beat and semantic analysis.' },
+  { id: 'libertas', name: 'LibertasDesktop', type: 'ecosystem', mode: 'reuse', description: 'Native PCM, aligned stems, DSP and 48 kHz rendering chassis.' },
+  { id: 'aivideoedit', name: 'AIVideoEdit', type: 'ecosystem', mode: 'reuse', description: 'FFT, onset, energy, phrase/QC and orchestration utilities.' },
 ];
 
 export const ROUTES = {

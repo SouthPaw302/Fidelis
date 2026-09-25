@@ -8,18 +8,23 @@ Do not optimize merely for a prettier waveform. Preserve the musical performance
 
 ## Before changing code
 
-1. Read `README.md`.\n2. Read `docs/DEVELOPMENT_PLAN.md`.\n3. Read `docs/TESTING.md`.\n4. Check `docs/QUALITY_GATE_PREALPHA.md` while the project is pre-pre-alpha.
-2. Read `docs/ARCHITECTURE.md`.
-3. Read `docs/PERFORMANCE_SCHEMA.md` if touching analysis or render adapters.
-4. Read `docs/ENGINE_REGISTRY.md` if adding/changing engines.
-5. Keep the static Vercel/Netlify deployment path working unless the task explicitly replaces it.
+1. Read `README.md`.
+2. Read `docs/DEVELOPMENT_PLAN.md`.
+3. Read `docs/TESTING.md`.
+4. Read the current milestone quality-gate document.
+5. Read `docs/ARCHITECTURE.md`.
+6. Read `docs/PROJECT_SCHEMA.md` when touching project, part, asset, timeline, reconstruction, reassembly or QC state.
+7. Read `docs/PERFORMANCE_SCHEMA.md` when touching analysis or render adapters.
+8. Read `docs/ENGINE_REGISTRY.md` when adding or changing engines.
+9. Keep the static Vercel/Netlify deployment path working unless the task explicitly replaces it.
 
 ## Ownership boundaries
 
+- **Project model** owns source assets, supplied/recovered parts, timeline, reconstruction state, reassembly and QC.
 - **Analyzers** observe audio and emit evidence.
 - **Jev** judges bounded alternatives. It does not perform DSP.
 - **DeepSeek Harness** may plan multi-step experiments. It does not own sample-accurate execution.
-- **Render adapters** translate stable performance data into an engine-specific control surface.
+- **Render adapters** translate stable project/performance data into an engine-specific control surface.
 - **QC** compares outputs and records evidence. It does not silently rewrite accepted artifacts.
 
 ## Rules
@@ -32,21 +37,20 @@ Do not optimize merely for a prettier waveform. Preserve the musical performance
 - Record model/revision/adapter identity in generated manifests.
 - Do not label heuristic articulation estimates as factual bowing/fingering data.
 - Prefer versioned JSON contracts between stages.
-- Keep browser v0 functional without credentials.\n- Do not develop features directly on `main`; use a task branch and a gate-backed PR.\n- UI/workflow changes require sandbox browser validation and screenshot review before merge.\n- Do not advance a milestone while its quality gate is open.
+- Never bypass `fidelis.project.*` for renderer or reassembly work.
+- Keep the browser control surface functional without credentials.
+- Do not develop features directly on `main`; use a task branch and a gate-backed PR.
+- UI/workflow changes require sandbox browser validation and screenshot review before merge.
+- The sandbox mirror used for testing must match Git blob hashes for all tested source files.
+- Do not advance a milestone while its quality gate is open.
 
 ## Validation
 
-At minimum, before committing:
+At minimum, before a PR:
 
 ```bash
-node --check src/app.js
-node --check src/audio/analyze.js
-node --check src/audio/pitch.js
-node --check src/core/engines.js
-node --check src/core/jev.js
-node --check src/core/schema.js
-node --check src/orchestrator/deepseek.js
-python -m http.server 4173
+npm run check
+npm test
 ```
 
-Then run the mandatory sandbox browser gate in `docs/TESTING.md`. If the sandbox blocks localhost navigation, use the documented in-browser injection workaround. A browser/runtime check is required for UI/workflow changes, not optional.
+Then run the mandatory sandbox browser gate in `docs/TESTING.md`. If the sandbox blocks localhost navigation, use the documented exact-source in-memory module workaround. A browser/runtime check is required for UI/workflow changes, not optional.

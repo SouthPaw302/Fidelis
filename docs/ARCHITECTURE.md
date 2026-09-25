@@ -2,88 +2,126 @@
 
 ## Product boundary
 
-Fidelis is a standalone application. Vercel or Netlify may host the control surface while heavyweight model workers can run anywhere appropriate: browser, serverless function, container, GPU worker, local workstation or external service.
+Fidelis is a standalone application. Vercel or Netlify may host the control surface while heavyweight workers can run in browser, serverless compute, containers, GPU infrastructure, local/private workers or external services.
 
-The UI does not care where a model runs. It cares about **adapter contracts**.
+The product owns the **project contracts and workflow**. Engines are replaceable providers.
 
-## Pipeline
+## Canonical pipeline
 
 ```text
-Source stem
-   │
-   ├── deterministic signal analysis
-   ├── transcription adapters
-   └── continuous performance analyzers
-             │
-             ▼
-       performance.json
-             │
-      ┌──────┴─────────┐
-      │                │
-    Jev judge    DeepSeek Harness
-      │          (optional planner)
-      └──────┬─────────┘
-             ▼
-        route manifest
-             │
-   ┌─────────┼───────────┐
-   ▼         ▼           ▼
- direct     DDSP      physical/sample
- transfer   render       renderer
-   │         │           │
-   └─────────┴───────────┘
-             ▼
-      candidate stem(s)
-             │
-             ▼
-       objective QC + A/B
+full mix or supplied stems
+          │
+          ▼
+   fidelis.project.v0.2
+          │
+   ┌──────┴──────────────────────────────┐
+   │                                     │
+source decomposition              supplied parts
+(polyphonic/separation)                │
+   │                                     │
+   └──────────────┬──────────────────────┘
+                  ▼
+            project parts
+                  │
+        performance extraction
+                  │
+                  ▼
+      fidelis.performance.v0.1
+                  │
+        ┌─────────┴─────────┐
+        │                   │
+      Jev judge      DeepSeek Harness
+        │             optional planner
+        └─────────┬─────────┘
+                  ▼
+          renderer assignment
+                  │
+    ┌─────────────┼──────────────┐
+    ▼             ▼              ▼
+ direct         DDSP       physical/sample
+ transfer       render          render
+    │             │              │
+    └─────────────┴──────────────┘
+                  ▼
+          reconstructed assets
+                  │
+                  ▼
+           reassembly manifest
+                  │
+                  ▼
+             mix + QC
 ```
 
-## v0 browser analyzer
+No renderer may bypass the project model.
 
-The initial browser analyzer is intentionally dependency-free. It provides:
+## Project model
 
-- PCM decode via Web Audio.
-- mono mixdown for analysis.
-- RMS / peak / crest factor.
-- normalized-autocorrelation pitch estimates on isolated monophonic stems.
-- octave-jump suppression.
-- note segmentation.
+`src/core/project.js` owns the whole-song state:
+
+- canonical primary source;
+- optional supplied stems;
+- audio assets and provenance;
+- supplied and recovered parts;
+- timeline shell;
+- performance documents per part;
+- renderer assignment;
+- reconstruction state;
+- reassembly tracks;
+- QC state.
+
+See `docs/PROJECT_SCHEMA.md`.
+
+## Browser analyzer
+
+The dependency-free browser analyzer remains a **monophonic stem analyzer**. It provides:
+
+- PCM decode via Web Audio;
+- mono mixdown for analysis;
+- RMS / peak / crest factor;
+- normalized-autocorrelation pitch estimates;
+- octave-jump suppression;
+- note segmentation;
 - heuristic attack, slide and vibrato descriptors.
 
-It exists to validate the **data flow and product contract**, not to replace specialized models.
+It does not perform source separation or general polyphonic transcription.
 
-## Adapters
+When the primary source is marked as a full mix, Fidelis registers the project but refuses to fabricate monophonic note data. Supplied stems can be attached immediately while a future decomposition adapter supplies recovered parts.
 
-Every heavyweight external system should implement one of these conceptual interfaces:
+## Adapter contracts
+
+### `SourceDecomposer`
+
+Input: full-mix asset plus project context. Output: recovered audio assets/parts with confidence and provenance.
+
+Expected future implementations: source-separation and polyphonic-recovery systems.
 
 ### `Transcriber`
 
-Input: stem audio. Output: notes / continuous pitch / confidence.
+Input: part/stem audio. Output: notes, continuous pitch and confidence.
 
 Examples: Basic Pitch, STRAdi.
 
 ### `PerformanceAnalyzer`
 
-Input: stem audio plus optional transcription. Output: dynamics, pitch curves, vibrato, articulation evidence and timing.
+Input: part audio plus optional transcription. Output: dynamics, pitch curves, vibrato and articulation evidence.
 
 Examples: Fidelis native analyzers, future learned encoders, DDSP-derived controls.
 
 ### `TimbreTransfer`
 
-Input: source audio + target model. Output: candidate audio.
+Input: source part audio plus target model. Output: reconstructed candidate audio.
 
 Examples: RAVE, BRAVE, Sony Diffusion, WaveTransfer.
 
 ### `Renderer`
 
-Input: `performance.json` or translated controls. Output: new audio.
+Input: project part plus `performance.json` or translated controls. Output: reconstructed audio asset.
 
-Examples: Instrudio, DDSP, sample-library worker, future VST/CLAP host.
+Examples: Instrudio, DDSP, sample-library workers, future VST/CLAP host.
 
 ### `Judge`
 
-Input: evidence + available routes. Output: bounded choice and rationale.
+Input: evidence + bounded choices. Output: choice and rationale.
 
 Examples: Jev; deterministic fallback in `src/core/jev.js`.
 
@@ -93,30 +131,30 @@ Input: project goal + evidence + adapters. Output: multi-step experiment plan.
 
 Examples: DeepSeek Harness.
 
-## Heavy model execution
-
-Do not assume "web app" means "all inference runs inside Vercel". The supported topology is:
+## Worker topology
 
 ```text
-Vercel / Netlify UI
+Vercel / Netlify deck
         │
         ▼
- job API / queue
+ project/job API
         │
-        ├── CPU worker
-        ├── GPU worker
-        ├── browser WebGPU adapter
-        └── local/private worker
+   ┌────┼─────────────┐
+   ▼    ▼             ▼
+ CPU   GPU       browser WebGPU
+ worker worker       / WASM
+   │
+   └─────── optional local/private worker
 ```
 
-Fidelis remains independent because these are providers, not product owners.
+Provider location does not define the product. Project and adapter contracts do.
 
 ## Ecosystem reuse
 
-Code may be ported from SouthPaw302 projects when it is cleanly separable:
+Code/patterns may be ported cleanly from:
 
-- LibertyDJ: model registry, worker lifecycle, confidence fusion, ONNX/WebGPU/WASM patterns.
-- LibertasDesktop: native PCM/stem engine and real-time DSP patterns.
-- AIVideoEdit: deterministic analysis, canonical timing/QC maps and harness conventions.
+- LibertyDJ: model registry, worker lifecycle, confidence fusion, ONNX/WebGPU/WASM;
+- LibertasDesktop: native PCM/stem engine and real-time DSP;
+- AIVideoEdit: deterministic analysis, timing/QC maps and harness conventions.
 
-Do not introduce runtime coupling between repositories merely to save a small amount of duplicated utility code.
+These repositories are reuse sources, not required runtime dependencies.
