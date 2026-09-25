@@ -1,0 +1,23 @@
+# Fidelis DeepSeek Harness MCP profile patch.
+# Replace /absolute/path/to/Fidelis before use.
+- id: mcp-fidelis
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    serverName: fidelis
+    transport: stdio
+    command: python
+    args:
+      - -m
+      - fidelis_backend.mcp_server
+    env:
+      PYTHONPATH: /absolute/path/to/Fidelis/backend
+      FIDELIS_RUNTIME: /absolute/path/to/Fidelis/.fidelis_runtime
+    cwd: /absolute/path/to/Fidelis/backend
+    toolCallTimeoutMs: 3600000
+    failOnStartupError: false
+    maxInstructionBytes: 32768
+    reconnect:
+      enabled: true
+      initialDelayMs: 500
+      maxDelayMs: 30000
+      maxAttempts: 10

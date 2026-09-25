@@ -4,11 +4,29 @@ Thumbs.db
 .env.*
 !.env.example
 node_modules/
-dist/
-coverage/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Runtime / generated production data
+runtime*/
+backend/runtime*/
+*.sqlite3
 *.wav
 *.flac
 *.mp3
 *.m4a
 *.ogg
 *.performance.json
+*.fidelis.json
+
+# Model weights
+*.th
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Test / gate images generated locally
+backend-authority-*.png
+step*-*.png

@@ -1,0 +1,8 @@
+[project]
+name = "fidelis-backend"
+version = "0.3.0a0"
+description = "Fidelis provider-neutral reconstruction backend"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

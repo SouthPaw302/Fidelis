@@ -1,0 +1,351 @@
+{
+  "schema": "fidelis.sandbox-manifest.v0.2",
+  "release": "backend-authority-prealpha",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "bddf73b93d9628da11f4dd2f0220732a7bc37d0ee0d25edc41971caab222df73",
+      "size": 3773
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "5d94fc1140616de60c6d465b8968a8e19263cf7c185d25caa03859500c29d7ca",
+      "size": 1099
+    },
+    {
+      "path": "README.md",
+      "sha256": "7628e69bebd543ee294ad6adcb704448044958d38016b96f94d2fcb5f7b64f46",
+      "size": 4499
+    },
+    {
+      "path": "api/index.py",
+      "sha256": "9c398dce03bee61502cdd0cf9ca98a97c546e14dda6bf63cafe706cd02423f12",
+      "size": 268
+    },
+    {
+      "path": "backend/ARCHITECTURE.md",
+      "sha256": "c6a858a312494f9c15fae0b15d98cbad3106f3abadb64a9f3a23fb398abdd7c5",
+      "size": 2472
+    },
+    {
+      "path": "backend/BACKEND_GATE.md",
+      "sha256": "7271b561cb700e6c1334543cb626f789de794f0f36c9e719cea50375fb621630",
+      "size": 2551
+    },
+    {
+      "path": "backend/DEPLOYMENT.md",
+      "sha256": "6dff33a5a6819e49db038024a28c6eeb00dd4e133a4fbbd956218b2ff0c0f244",
+      "size": 2627
+    },
+    {
+      "path": "backend/ENVIRONMENT.md",
+      "sha256": "3a668446a74c3615a319558ebf36c8bead7f5288c79cad7804f55df57ed34137",
+      "size": 1355
+    },
+    {
+      "path": "backend/MODELS.md",
+      "sha256": "8dab48c0db3317220fbe2149040f7223cc4cf7483ec0dad855a3ebedd452ffd9",
+      "size": 4076
+    },
+    {
+      "path": "backend/README.md",
+      "sha256": "b916c554f717b4887fbb8b9fb6c990f7e49941d225b2c0550e9513f113492d30",
+      "size": 2091
+    },
+    {
+      "path": "backend/THIRD_PARTY_NOTICES.md",
+      "sha256": "1ceb4f92f9ae2f8fac57c4dd9fd43737adf0f928481e9572deeff8723dff38b1",
+      "size": 1079
+    },
+    {
+      "path": "backend/WORKER_PROTOCOL.md",
+      "sha256": "eb341259e7e60f59b97420f405e00bbcb0067cece24d3490d95c858dd58e6aa3",
+      "size": 2394
+    },
+    {
+      "path": "backend/deepseek_harness/cordis.patch.yml.example",
+      "sha256": "35314531693315420746585f1da70a1ad1adedbf347828f90a00c5f7b0ad01ef",
+      "size": 650
+    },
+    {
+      "path": "backend/fidelis_backend/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "backend/fidelis_backend/__main__.py",
+      "sha256": "3747cf686a868f43cfd49cdcedf00b8298732f91f0e907bbaf6d906fba20b74a",
+      "size": 129
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/base.py",
+      "sha256": "0c8a83bfac23710d289501265a49f55fd7c5141f1ed36f2a12e288dba7402204",
+      "size": 610
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/demucs.py",
+      "sha256": "9ed603aab029b06c81cdab5ab825346ba0b517960f1165b6531f0db416a56976",
+      "size": 6053
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/discovery.py",
+      "sha256": "cc77c202bce49f8ebba4e2a24b6e2da7abce7e588fbf58b317c789952a631d10",
+      "size": 4580
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/instrudio_violin.py",
+      "sha256": "6201b7119e956617fb4d216f0eecbbe8f80510acacbee65669641e8cda0eaa9f",
+      "size": 15174
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/performance.py",
+      "sha256": "948520c0fada2468687f58cf50b74a81932c9116d2c07b20f56cf4c51b3c3156",
+      "size": 6781
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/physical_violin.py",
+      "sha256": "4151e3f3c50adfdb57517f0efccecc1f83bce316cff531b6f5582c4609558731",
+      "size": 9674
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/reference_renderer.py",
+      "sha256": "7d5ad4fbc71019a348cd13dd8d0535369e4b5f376f0fcdb17b3f9b696d65d06b",
+      "size": 3271
+    },
+    {
+      "path": "backend/fidelis_backend/adapters/remote_worker.py",
+      "sha256": "9060f5d29c3e1df427c7267f7b9af35fdfb6a2cbf228890a69745a2987bf5675",
+      "size": 3445
+    },
+    {
+      "path": "backend/fidelis_backend/api.py",
+      "sha256": "79aac2cb69fc7b1eb958ed629e9c6c14a79a03f00f8ccfebf2095a461711fbcf",
+      "size": 11839
+    },
+    {
+      "path": "backend/fidelis_backend/audio_utils.py",
+      "sha256": "691a5a6e5e12b6b7c37f1be8e5eee612ee124cb5ace7b4c53ae6517b993079f6",
+      "size": 1709
+    },
+    {
+      "path": "backend/fidelis_backend/config.py",
+      "sha256": "f1580f8f0ededbfb786881a1eb91b4b6d206b78e651a353e43746262f54191b5",
+      "size": 861
+    },
+    {
+      "path": "backend/fidelis_backend/harness/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "backend/fidelis_backend/harness/deepseek.py",
+      "sha256": "148c2e8f5b1259a7cee4630db7b82293e3a69144da45147b2aca17f2d0710c93",
+      "size": 3230
+    },
+    {
+      "path": "backend/fidelis_backend/harness/jev.py",
+      "sha256": "7ffb3a3e69c1c556d144a813510127541940bb05cee41b3710135041cb885824",
+      "size": 3539
+    },
+    {
+      "path": "backend/fidelis_backend/jobs.py",
+      "sha256": "9c7508fcefc66555160747c503c25006ea747932fdcefdc3252964bc2af53693",
+      "size": 1362
+    },
+    {
+      "path": "backend/fidelis_backend/mcp_server.py",
+      "sha256": "2634420a66b14548ebb40ce695a136ae6489eb96467920bf18068287e53d8c4f",
+      "size": 5058
+    },
+    {
+      "path": "backend/fidelis_backend/orchestrator.py",
+      "sha256": "9004474275de06cdd8a158465f0d5ad4f860062cb6bc5bb2b76927147d8e48cc",
+      "size": 25468
+    },
+    {
+      "path": "backend/fidelis_backend/qc.py",
+      "sha256": "17054d4521817873daee620fbb0d196adba9800a5bdd39e13a69e0fcc3fdf9d5",
+      "size": 2424
+    },
+    {
+      "path": "backend/fidelis_backend/registry.py",
+      "sha256": "ea927ab22176fcbda49e84fea3b704f91a0c6a7eef0e31636be849bb324680fa",
+      "size": 1890
+    },
+    {
+      "path": "backend/fidelis_backend/storage.py",
+      "sha256": "182161b2a892d84d27768e1977c3c7e670acc06f08a18f6938bfbda7dd5ca932",
+      "size": 8833
+    },
+    {
+      "path": "backend/pyproject.toml",
+      "sha256": "35ff0d7877ec56e92941ec0c9f1b043b9ed7e0af2576947cc39639da7d3e40b3",
+      "size": 195
+    },
+    {
+      "path": "backend/requirements.txt",
+      "sha256": "0cb8333e23342d6888d7ec1c8387dc0bb737709bbcac1751f1e873057878c22f",
+      "size": 119
+    },
+    {
+      "path": "backend/tests/backend_gate.py",
+      "sha256": "63cd8adcc4979dfd05b74681db8d9c97e8d38dc95e4caf6cead741d7e166a068",
+      "size": 2978
+    },
+    {
+      "path": "backend/tests/fixture.py",
+      "sha256": "83c3a1e20666e60e65090b3f558909245b1c811778c91b1f3be71b13af2d9dd7",
+      "size": 898
+    },
+    {
+      "path": "backend/tests/live_http_gate.py",
+      "sha256": "928c3fb9471b46898bae1eeaae7566099eeb19718b9eb7651b185eeceec6bacc",
+      "size": 3288
+    },
+    {
+      "path": "backend/tests/mcp_selftest.py",
+      "sha256": "36c569ce3b44edf3cb09c1ffe33c649f2741b0a6e3e3456b3ad689a468c20711",
+      "size": 1357
+    },
+    {
+      "path": "backend/tests/remote_worker_gate.py",
+      "sha256": "36d7ffbac1e3d3adbade5136ce1c3b17fda8e4026de8f9c5efb065fdb0cffcb2",
+      "size": 4451
+    },
+    {
+      "path": "backend/tests/run_all.sh",
+      "sha256": "aa887ad73e3f671393ba60f36f5aef0661b5f05f4cff3ce781350b1207511782",
+      "size": 287
+    },
+    {
+      "path": "backend/tests/ui_backend_gate.py",
+      "sha256": "499620ec549e23d9084c7f74067a8a5af9924774f065d4c4acd082a7b545c0ec",
+      "size": 7750
+    },
+    {
+      "path": "backend/vendor/instrudio/LICENSE",
+      "sha256": "ffefd1d66e02b90808c331be4c6e02fbf7d5370121775d688578cb21c92a16dd",
+      "size": 1067
+    },
+    {
+      "path": "backend/vendor/instrudio/studio_violin.json",
+      "sha256": "4791098e7c91db582afb435cfc3fc5efb69940efc20400f32774f1d1fca390c1",
+      "size": 2612
+    },
+    {
+      "path": "gitignore",
+      "sha256": "8323c79e3b0964bd8162c825e2a7fa4f1f3ae8b5fc5bf4cf66a3075750f910fb",
+      "size": 359
+    },
+    {
+      "path": "index.html",
+      "sha256": "52421a0f9e0d0e461366228cdc76ee6f9f494fae18c94621b0b84c353e98a780",
+      "size": 12306
+    },
+    {
+      "path": "netlify.toml",
+      "sha256": "8de6b5107def0ab5854c595488d30d426111863fb94f6e0080c03012a2d823cc",
+      "size": 214
+    },
+    {
+      "path": "package.json",
+      "sha256": "e91024b84de16e8a157bd93eb4fc69c4a24692be3f5571054e977d6dba68f38c",
+      "size": 691
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "fb3ff435be42091b88998f5a053afb217a17d41b96c041f0c6ab6389d1dc68f8",
+      "size": 28
+    },
+    {
+      "path": "scripts/build_frontend.py",
+      "sha256": "ac2cfe18c932a48b4d5da9bfd87af1f2b327bbc9dc7777417ea40e1fd2ecfcd1",
+      "size": 591
+    },
+    {
+      "path": "src/app.js",
+      "sha256": "7f212dec3d68d4655eba4432699bcfb09d5bc612493f65e5cfd0797a37d3b3ba",
+      "size": 35940
+    },
+    {
+      "path": "src/audio/analyze.js",
+      "sha256": "88ad66806902d320ef31b9db8291ccdbddd81ea46c73cddec5c7c315423483e0",
+      "size": 6507
+    },
+    {
+      "path": "src/audio/pitch.js",
+      "sha256": "4878afdcd73862f33d23b69b39ad5b24712abc297e63a38e0a42f281848a92d9",
+      "size": 1670
+    },
+    {
+      "path": "src/backend-client.js",
+      "sha256": "0c46660325b9c5c0f72f17290fd0b8a660f78a04e531d26c742554414611f054",
+      "size": 5838
+    },
+    {
+      "path": "src/core/engines.js",
+      "sha256": "4d1bab8a7c56065d03b9be2826c1b6df26b0c8bd39e48a662622b50ae0e5da0c",
+      "size": 2598
+    },
+    {
+      "path": "src/core/jev.js",
+      "sha256": "44befd9550ccb13ef3577f55034f6fbc3ca96793d364a47b9fe4a9735b580106",
+      "size": 1873
+    },
+    {
+      "path": "src/core/project.js",
+      "sha256": "0e75827c3c60561ee64ebadd783079cf7cc15d9ed66eb0137df224dd68a4e5ff",
+      "size": 7866
+    },
+    {
+      "path": "src/core/schema.js",
+      "sha256": "bd8b20eeffeb5e27f0e911c7f2c43a0dcfef4324ada6274ce1174e8f7bbd9bd0",
+      "size": 1236
+    },
+    {
+      "path": "src/orchestrator/deepseek.js",
+      "sha256": "85f6161dca8694f06e14d45754de7af8d58d59957b077b90ee93136564a0ac53",
+      "size": 1271
+    },
+    {
+      "path": "src/render/reference.js",
+      "sha256": "60efbc88fe054e59fd89cbff6a60b5bc55186842b20536d9ed7906832c91b11b",
+      "size": 4453
+    },
+    {
+      "path": "src/ui/waveform.js",
+      "sha256": "9e58a1afd78b7e710f37914c771821cddd1f0bd137b7778b7c93e36a52e8ca07",
+      "size": 1163
+    },
+    {
+      "path": "styles.css",
+      "sha256": "c51d3af5357db87ffe3294860da1437e6d28ac170118a2de514eda0efb8e8d3e",
+      "size": 17780
+    },
+    {
+      "path": "tests/project.mjs",
+      "sha256": "9745f1c0f2e3b4d03a14a3984508aaee2f379d4153973e421727c5e37b0183eb",
+      "size": 1023
+    },
+    {
+      "path": "tests/smoke.mjs",
+      "sha256": "4455ab5ea1b97dffcc0b04cc3678827e834445e1a20e40a2b71e120fecc92ac0",
+      "size": 1299
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "4d62d20e37af7202f2ce6c2cb3366e639e2b3b3d2b6159de54875f8d4d57a6d2",
+      "size": 363
+    },
+    {
+      "path": "vercelignore",
+      "sha256": "6d52a19c1e294aa4463a6b5d054126e9525af2047655d57471259d025e9d8bd9",
+      "size": 126
+    }
+  ]
+}
