@@ -4,140 +4,170 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Fidelis — performance-preserving instrument reconstruction for AI-generated music stems." />
-  <title>Fidelis — Performance-Preserving Instrument Reconstruction</title>
+  <title>Fidelis // Reconstruction Deck</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand-lockup">
-        <div class="mark" aria-hidden="true">F</div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="deck-shell">
+    <header class="deck-topbar">
+      <div class="brand-cluster">
+        <div class="sigil">FID</div>
         <div>
           <div class="brand">FIDELIS</div>
-          <div class="tagline">Performance-preserving instrument reconstruction</div>
+          <div class="tagline">PERFORMANCE RECONSTRUCTION DECK // PRE-PRE-ALPHA</div>
         </div>
       </div>
-      <div class="status-chip"><span class="status-dot"></span> Browser engine ready</div>
+      <div class="top-status">
+        <div class="sys-pill"><span class="pulse"></span> CORE ONLINE</div>
+        <div class="sys-readout">MODE <b>INDEPENDENT</b></div>
+        <div class="sys-readout">BUILD <b>0.1.X</b></div>
+      </div>
     </header>
 
-    <nav class="stage-rail" aria-label="Fidelis workflow">
-      <button class="stage active" data-stage="input"><span>01</span>Input</button>
-      <button class="stage" data-stage="analyze"><span>02</span>Analyze</button>
-      <button class="stage" data-stage="route"><span>03</span>Route</button>
-      <button class="stage" data-stage="render"><span>04</span>Render</button>
-      <button class="stage" data-stage="compare"><span>05</span>Compare</button>
+    <nav class="deck-tabs" aria-label="Fidelis workflow">
+      <button class="stage active" data-stage="input"><span>01</span> DECOMPILE</button>
+      <button class="stage" data-stage="analyze"><span>02</span> PARTS</button>
+      <button class="stage" data-stage="route"><span>03</span> REBUILD</button>
+      <button class="stage" data-stage="render"><span>04</span> RENDER</button>
+      <button class="stage" data-stage="compare"><span>05</span> COMPARE</button>
     </nav>
 
-    <main>
-      <section class="hero">
+    <main class="deck-main">
+      <section class="mission-panel">
         <div>
-          <p class="eyebrow">INDEPENDENT AUDIO LAB</p>
-          <h1>Keep the performance.<br><span>Replace the ceiling.</span></h1>
-          <p class="lede">Drop in a Suno or other generated instrument stem. Fidelis extracts a machine-readable performance description, recommends reconstruction routes, and prepares the stem for high-fidelity rendering.</p>
+          <p class="eyebrow">// SYSTEM OBJECTIVE</p>
+          <h1>DECOMPILE THE PERFORMANCE.<br><span>REBUILD THE INSTRUMENT.</span></h1>
+          <p class="mission-copy">Import a full song or a clean stem. Fidelis should be able to recover the musical system beneath the waveform—parts, timing, pitch motion, phrasing, dynamics, and instrument intent—then rebuild those parts with better samples, physical models, or transfer engines.</p>
         </div>
-        <div class="hero-diagram" aria-label="Signal flow">
-          <div class="node">AI stem</div><div class="arrow">→</div><div class="node accent">performance</div><div class="arrow">→</div><div class="node">new renderer</div>
+        <div class="signal-chain">
+          <div class="chain-node active">SOURCE</div><i>›</i>
+          <div class="chain-node">PERFORMANCE</div><i>›</i>
+          <div class="chain-node">PARTS</div><i>›</i>
+          <div class="chain-node hot">RENDER</div>
         </div>
       </section>
 
-      <section class="workspace-grid">
-        <div class="panel input-panel">
-          <div class="panel-head">
-            <div><p class="kicker">SOURCE</p><h2>Instrument stem</h2></div>
-            <span id="fileState" class="badge neutral">No file</span>
+      <section class="deck-grid primary-grid">
+        <div class="deck-panel source-deck">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">SRC-01</span><h2>Source Deck</h2></div>
+            <span id="fileState" class="deck-badge muted">NO SOURCE</span>
           </div>
 
           <label class="dropzone" id="dropzone" for="audioFile">
             <input id="audioFile" type="file" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" />
-            <div class="drop-icon">↥</div>
-            <strong>Drop a stem here</strong>
-            <span>WAV preferred · audio stays in your browser for v0</span>
+            <div class="drop-glyph">⬒</div>
+            <strong>INSERT AUDIO SOURCE</strong>
+            <span>FULL MIX OR STEM // WAV RECOMMENDED</span>
           </label>
 
-          <div class="form-row">
-            <label>Instrument
+          <div class="control-strip">
+            <label class="deck-field">SOURCE TYPE
               <select id="instrumentType">
-                <option value="fiddle">Fiddle / violin</option>
-                <option value="guitar">Guitar</option>
-                <option value="bass">Bass</option>
-                <option value="piano">Piano / keys</option>
-                <option value="drums">Drums / percussion</option>
-                <option value="vocals">Vocals</option>
-                <option value="unknown">Other / unknown</option>
+                <option value="fiddle">Fiddle / violin stem</option>
+                <option value="guitar">Guitar stem</option>
+                <option value="bass">Bass stem</option>
+                <option value="piano">Piano / keys stem</option>
+                <option value="drums">Drums / percussion stem</option>
+                <option value="vocals">Vocals stem</option>
+                <option value="unknown">Full mix / unknown</option>
               </select>
             </label>
-            <label>Analysis depth
+            <label class="deck-field">SCAN DEPTH
               <select id="analysisDepth">
-                <option value="fast">Fast preview</option>
-                <option value="full" selected>Performance</option>
+                <option value="fast">Rapid</option>
+                <option value="full" selected>Deep performance</option>
               </select>
             </label>
           </div>
 
-          <canvas id="waveform" width="900" height="190" aria-label="Audio waveform"></canvas>
-          <div class="transport-row">
-            <button id="playBtn" class="button secondary" disabled>▶ Preview</button>
-            <button id="analyzeBtn" class="button primary" disabled>Analyze performance</button>
+          <div class="wave-shell">
+            <div class="wave-header"><span>WAVEFORM // INPUT BUS</span><span id="waveState">STANDBY</span></div>
+            <canvas id="waveform" width="900" height="190" aria-label="Audio waveform"></canvas>
+          </div>
+
+          <div class="transport-bank">
+            <button id="playBtn" class="deck-button ghost" disabled>▶ MONITOR</button>
+            <button id="analyzeBtn" class="deck-button primary" disabled>DECOMPILE SOURCE</button>
           </div>
           <audio id="audioPreview" controls hidden></audio>
         </div>
 
-        <aside class="panel side-panel">
-          <div class="panel-head"><div><p class="kicker">LIVE READOUT</p><h2>Signal profile</h2></div></div>
-          <div class="metric-grid">
-            <div class="metric"><span>Duration</span><strong id="metricDuration">—</strong></div>
-            <div class="metric"><span>Sample rate</span><strong id="metricRate">—</strong></div>
-            <div class="metric"><span>RMS</span><strong id="metricRms">—</strong></div>
-            <div class="metric"><span>Crest</span><strong id="metricCrest">—</strong></div>
-            <div class="metric"><span>Pitch frames</span><strong id="metricPitch">—</strong></div>
-            <div class="metric"><span>Notes found</span><strong id="metricNotes">—</strong></div>
+        <aside class="deck-panel telemetry-deck">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">SIG-02</span><h2>Signal Telemetry</h2></div>
+            <span class="deck-badge">LIVE</span>
           </div>
-          <div class="mini-note">This first build performs deterministic browser-side analysis. External engines remain adapters so RAVE, BRAVE, DDSP, STRAdi, Instrudio, or hosted workers can be attached without changing the project format.</div>
+          <div class="telemetry-grid">
+            <div class="telemetry"><span>DURATION</span><strong id="metricDuration">--</strong><small>SEC</small></div>
+            <div class="telemetry"><span>SAMPLE RATE</span><strong id="metricRate">--</strong><small>HZ</small></div>
+            <div class="telemetry"><span>RMS</span><strong id="metricRms">--</strong><small>ENERGY</small></div>
+            <div class="telemetry"><span>CREST</span><strong id="metricCrest">--</strong><small>RATIO</small></div>
+            <div class="telemetry"><span>PITCH FRAMES</span><strong id="metricPitch">--</strong><small>VOICED</small></div>
+            <div class="telemetry"><span>PARTS FOUND</span><strong id="metricNotes">--</strong><small>EVENTS</small></div>
+          </div>
+          <div class="scope-note">
+            <b>CURRENT CAPABILITY</b>
+            <p>v0.1 can decompile a monophonic stem into pitch and gesture data. Full-song decomposition, polyphonic part recovery, real renderer execution, and automatic reassembly are the next core milestones.</p>
+          </div>
         </aside>
       </section>
 
-      <section class="panel routes-panel">
-        <div class="panel-head">
-          <div><p class="kicker">JEV ROUTER</p><h2>Reconstruction routes</h2></div>
-          <span id="routeState" class="badge neutral">Awaiting analysis</span>
-        </div>
-        <div id="routeCards" class="route-cards"></div>
-      </section>
-
-      <section class="workspace-grid lower-grid">
-        <div class="panel performance-panel">
-          <div class="panel-head">
-            <div><p class="kicker">PERFORMANCE DESCRIPTION</p><h2>Extracted gestures</h2></div>
-            <button id="exportBtn" class="button secondary compact" disabled>Export JSON</button>
+      <section class="deck-grid secondary-grid">
+        <div class="deck-panel parts-deck">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">PRT-03</span><h2>Recovered Parts</h2></div>
+            <button id="exportBtn" class="deck-button tiny" disabled>EXPORT MAP</button>
           </div>
-          <div id="performanceEmpty" class="empty-state">Analyze a stem to create <code>performance.json</code>.</div>
+          <div id="performanceEmpty" class="empty-state">
+            <span class="empty-glyph">⌁</span>
+            <strong>NO DECOMPILED PARTS</strong>
+            <small>Run DECOMPILE SOURCE to recover performance events.</small>
+          </div>
           <div id="performanceTableWrap" class="table-wrap" hidden>
             <table>
-              <thead><tr><th>Time</th><th>Note</th><th>Dur.</th><th>Dynamics</th><th>Vibrato</th><th>Transition</th></tr></thead>
+              <thead><tr><th>T</th><th>PART</th><th>LEN</th><th>DYNAMICS</th><th>VIBRATO</th><th>TRANSITION</th></tr></thead>
               <tbody id="performanceRows"></tbody>
             </table>
           </div>
         </div>
 
-        <aside class="panel log-panel">
-          <div class="panel-head"><div><p class="kicker">ORCHESTRATION</p><h2>Run log</h2></div></div>
-          <div id="runLog" class="run-log" aria-live="polite">
-            <div><time>BOOT</time><span>Fidelis browser runtime initialized.</span></div>
-            <div><time>JEV</time><span>Decision layer standing by.</span></div>
-            <div><time>HARNESS</time><span>DeepSeek adapter contract available for external orchestration.</span></div>
+        <aside class="deck-panel router-deck">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">JEV-04</span><h2>Rebuild Router</h2></div>
+            <span id="routeState" class="deck-badge muted">WAITING</span>
           </div>
+          <div id="routeCards" class="route-stack"></div>
         </aside>
       </section>
 
-      <section class="panel engine-panel">
-        <div class="panel-head"><div><p class="kicker">ENGINE REGISTRY</p><h2>Open systems + Fidelis ecosystem</h2></div><span class="badge">Adapter-first</span></div>
-        <div id="engineGrid" class="engine-grid"></div>
+      <section class="deck-grid tertiary-grid">
+        <div class="deck-panel engine-panel">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">ENG-05</span><h2>Engine Bay</h2></div>
+            <span class="deck-badge">ADAPTER BUS</span>
+          </div>
+          <div id="engineGrid" class="engine-grid"></div>
+        </div>
+
+        <aside class="deck-panel console-panel">
+          <div class="panel-titlebar">
+            <div><span class="panel-code">SYS-06</span><h2>Deck Console</h2></div>
+            <span class="deck-badge">TRACE</span>
+          </div>
+          <div id="runLog" class="run-log" aria-live="polite">
+            <div><time>BOOT</time><span>Fidelis reconstruction deck initialized.</span></div>
+            <div><time>JEV</time><span>Bounded route judge standing by.</span></div>
+            <div><time>HARNESS</time><span>DeepSeek orchestration contract armed.</span></div>
+          </div>
+        </aside>
       </section>
     </main>
 
-    <footer>
-      <span>Fidelis v0.1 · independent by design</span>
-      <span>Stem → performance → renderer → comparison</span>
+    <footer class="deck-footer">
+      <span>FIDELIS // PRE-PRE-ALPHA</span>
+      <span>DECOMPILE → PARTS → REBUILD → RENDER → COMPARE</span>
     </footer>
   </div>
   <script type="module" src="./src/app.js"></script>
