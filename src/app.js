@@ -72,8 +72,8 @@ async function loadFile(file) {
     drawWaveform(els.waveform, state.buffer);
     els.play.disabled = false;
     els.analyze.disabled = false;
-    els.metrics.duration.textContent = `${state.buffer.duration.toFixed(2)} s`;
-    els.metrics.rate.textContent = `${(state.buffer.sampleRate / 1000).toFixed(1)} kHz`;
+    els.metrics.duration.textContent = state.buffer.duration.toFixed(2);
+    els.metrics.rate.textContent = (state.buffer.sampleRate / 1000).toFixed(1);
     const waveState = document.querySelector('#waveState');
     if (waveState) waveState.textContent = 'SOURCE LOCKED';
     log('DECODE', `${state.buffer.numberOfChannels} channel(s) at ${state.buffer.sampleRate} Hz. Ready for performance analysis.`);
@@ -127,8 +127,8 @@ async function runAnalysis() {
 
 function updateMetrics(result) {
   const { summary } = result;
-  els.metrics.duration.textContent = `${summary.durationSec.toFixed(2)} s`;
-  els.metrics.rate.textContent = `${(summary.sampleRate / 1000).toFixed(1)} kHz`;
+  els.metrics.duration.textContent = summary.durationSec.toFixed(2);
+  els.metrics.rate.textContent = (summary.sampleRate / 1000).toFixed(1);
   els.metrics.rms.textContent = summary.rms.toFixed(4);
   els.metrics.crest.textContent = `${summary.crestFactor.toFixed(2)}×`;
   els.metrics.pitch.textContent = String(result.pitchFrames.length);
@@ -221,7 +221,7 @@ function setStage(active, doneThrough) {
   const order = ['input', 'analyze', 'route', 'render', 'compare'];
   document.querySelectorAll('.stage').forEach(button => {
     const id = button.dataset.stage;
-    button.classList.toggle('active', id === active);
+    button.classList.toggle('active', id === active);\n    if (id === active) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
     if (doneThrough) button.classList.toggle('done', order.indexOf(id) < order.indexOf(doneThrough));
     else if (order.indexOf(id) < order.indexOf(active)) button.classList.add('done');
   });
