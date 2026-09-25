@@ -4,7 +4,7 @@
   --amber:#ffc857;--red:#ff4d5f;--green:#5dffb5;--shadow:rgba(38,247,255,.16);
   font-family:"Segoe UI",ui-monospace,SFMono-Regular,Consolas,monospace;color-scheme:dark
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box}\n[hidden]{display:none!important}
 html{background:var(--bg)}
 body{margin:0;background:
 linear-gradient(rgba(8,18,24,.4),rgba(4,7,10,.9)),
@@ -58,7 +58,7 @@ h1 span{color:#657d89;font-weight:500}
 .panel-titlebar>div{display:flex;align-items:center;gap:10px}
 .panel-titlebar h2{font-family:"Arial Narrow","Segoe UI",sans-serif;font-size:15px;margin:0;text-transform:uppercase;letter-spacing:.08em}
 .panel-code{border-right:1px solid var(--line);padding-right:10px}
-.deck-badge{padding:5px 7px;color:var(--cyan);border-color:#25444e}.deck-badge.muted{color:#58707a;border-color:var(--line)}
+.deck-badge{padding:5px 7px;color:var(--cyan);border-color:#25444e;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.deck-badge.muted{color:#58707a;border-color:var(--line)}
 
 .source-deck{padding-bottom:12px}
 .dropzone{margin:14px;border:1px dashed #284652;min-height:118px;display:grid;place-items:center;align-content:center;gap:5px;background:
@@ -122,6 +122,10 @@ td{padding:9px 8px;border-bottom:1px solid #14232b;color:#7c99a4}td.note-name{co
   .deck-shell{width:calc(100% - 10px)}.top-status .sys-readout{display:none}
   .tagline{display:none}.deck-tabs{overflow-x:auto;grid-template-columns:repeat(5,minmax(100px,1fr))}
   .control-strip,.telemetry-grid,.engine-grid{grid-template-columns:1fr}
-  .mission-panel{padding:18px}h1{font-size:34px}.panel-titlebar h2{font-size:12px}
+  .mission-panel{padding:18px}h1{font-size:34px}.panel-titlebar h2{font-size:13px}
+  .mission-copy{font-size:11px}.deck-field{font-size:10px}select{font-size:12px}
+  .telemetry span,.scope-note b{font-size:9px}.scope-note p{font-size:11px}
+  .route-card h3{font-size:12px}.route-card p,.route-card .route-stack{font-size:10px}
+  .engine strong{font-size:11px}.engine small{font-size:10px}.run-log span{font-size:10px}
   .deck-footer{height:auto;gap:7px;flex-direction:column;align-items:flex-start;padding:9px 10px}
 }
