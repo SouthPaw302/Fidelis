@@ -8,14 +8,13 @@ DIST = ROOT / 'dist'
 
 if DIST.exists():
     shutil.rmtree(DIST)
-(DIST / 'src' / 'ui').mkdir(parents=True, exist_ok=True)
+
+# The browser-local Fidelis frontend imports modules across src/audio, src/core,
+# src/orchestrator and src/ui. Copy the complete frontend module tree so Vercel's
+# generated dist matches the working pre-backend file-intake path.
+shutil.copytree(ROOT / 'src', DIST / 'src')
 
 for name in ('index.html', 'styles.css'):
     shutil.copy2(ROOT / name, DIST / name)
-for relative in ('src/app.js', 'src/backend-client.js', 'src/ui/waveform.js'):
-    source = ROOT / relative
-    target = DIST / relative
-    target.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(source, target)
 
 print(f'FIDELIS FRONTEND BUILD: {DIST}')
