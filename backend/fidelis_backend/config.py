@@ -4,7 +4,13 @@ import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = Path(os.environ.get('FIDELIS_RUNTIME', ROOT / 'runtime')).resolve()
+
+# Vercel's deployed source tree (/var/task) is read-only at runtime.
+# Keep the existing persistent local default, but use Vercel's writable
+# ephemeral /tmp filesystem unless FIDELIS_RUNTIME explicitly overrides it.
+_DEFAULT_RUNTIME = Path('/tmp/fidelis-runtime') if os.environ.get('VERCEL') else ROOT / 'runtime'
+RUNTIME = Path(os.environ.get('FIDELIS_RUNTIME', _DEFAULT_RUNTIME)).resolve()
+
 DB_PATH = RUNTIME / 'fidelis.sqlite3'
 ARTIFACT_DIR = RUNTIME / 'artifacts'
 PROJECT_DIR = RUNTIME / 'projects'
