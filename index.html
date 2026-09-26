@@ -141,6 +141,16 @@
         </div>
       </section>
 
+
+      <section class="deck-panel mixer-core">
+        <div class="panel-titlebar">
+          <div><span class="panel-code">MIX-04</span><h2>Stem Mixer</h2></div>
+          <div class="mixer-toolbar"><label>BPM <input id="mixerBpm" type="number" min="30" max="300" step="0.01" placeholder="AUTO"></label><span id="mixerState" class="deck-badge muted">WAITING FOR PROJECT</span></div>
+        </div>
+        <div id="stemMixer" class="stem-mixer"><div class="mixer-empty">Load a song or stem to create the shared source channel.</div></div>
+        <div class="mixer-scope">Mixer controls are stored in the shared Fidelis ↔ Libertas audio contract now. Audible DSP routing is the next surgery step.</div>
+      </section>
+
       <section class="deck-grid secondary-grid">
         <div class="deck-panel parts-deck">
           <div class="panel-titlebar">
@@ -198,5 +208,6 @@
     </footer>
   </div>
   <script type="module" src="./src/app.js"></script>
+  <script type="module" src="./src/ui/stem-mixer.js"></script>
 </body>
 </html>

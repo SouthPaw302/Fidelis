@@ -3,9 +3,9 @@
   "version": "0.3.0-prealpha",
   "private": true,
   "type": "module",
-  "description": "Backend-authoritative musical decompilation and performance reconstruction deck.",
+  "description": "Performance reconstruction core growing into a shared Fidelis/Libertas mixing deck.",
   "scripts": {
-    "test": "node tests/core-freeze.mjs && node tests/smoke.mjs && node tests/project.mjs",
-    "check": "node --check src/app.js && node --check src/backend-client.js && node --check src/ui/waveform.js && node --check src/audio/analyze.js && node --check src/audio/pitch.js && node --check src/core/engines.js && node --check src/core/jev.js && node --check src/core/schema.js && node --check src/core/project.js && node --check src/orchestrator/deepseek.js && node --check src/render/reference.js"
+    "test": "node tests/core-freeze.mjs && node tests/shared-audio.mjs && node tests/smoke.mjs && node tests/project.mjs",
+    "check": "node --check src/app.js && node --check src/backend-client.js && node --check src/ui/waveform.js && node --check src/ui/stem-mixer.js && node --check src/audio/analyze.js && node --check src/audio/pitch.js && node --check src/core/engines.js && node --check src/core/jev.js && node --check src/core/schema.js && node --check src/core/project.js && node --check src/core/shared-audio.js && node --check src/orchestrator/deepseek.js && node --check src/render/reference.js"
   }
 }

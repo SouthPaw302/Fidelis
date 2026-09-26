@@ -335,6 +335,7 @@ function renderPerformance(notes) {
 }
 
 function renderProject() {
+  window.dispatchEvent(new CustomEvent('fidelis:project', { detail: { project: state.project } }));
   if (!state.project) {
     els.projectState.textContent = 'NO PROJECT';
     els.projectState.className = 'deck-badge muted';
