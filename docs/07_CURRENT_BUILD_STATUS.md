@@ -11,7 +11,8 @@
 - performance/project JSON export;
 - frozen backend/worker contracts;
 - shared Fidelis/Libertas audio contract;
-- first stateful mixer surface for source/stem channels.
+- first stateful mixer surface for source/stem channels;
+- audible browser mixer DSP: low/mid/high EQ, gain, pan, mute/solo, cue-preview bus, master gain and safety compression.
 
 ## BUILT IN BACKEND / NOT EXPOSED BY THE ROLLED-BACK FRONTEND
 
@@ -24,7 +25,6 @@
 
 ## PLANNED / NOT YET CLAIMED AS WORKING
 
-- audible multi-channel Web Audio/native mixer routing;
 - automatic stem separation in the deployed browser GUI;
 - Drive media upload/download integration;
 - beat/downbeat engine and canonical beat grid;

@@ -18,6 +18,7 @@ export function ensureSharedAudio(project) {
         preferredStore: 'google-drive',
         refs: {},
       },
+      master: defaultMaster(),
       channels: [],
       handoff: {
         target: 'LibertasDJ',
@@ -25,6 +26,7 @@ export function ensureSharedAudio(project) {
       },
     };
   }
+  if (!project.sharedAudio.master) project.sharedAudio.master = defaultMaster();
   syncChannels(project, project.sharedAudio);
   return project.sharedAudio;
 }
@@ -45,6 +47,13 @@ export function setTempo(project, bpm, { confidence = 1, source = 'manual' } = {
     project.timeline.tempo.source = shared.tempo.source;
   }
   return shared.tempo;
+}
+
+export function updateMasterMixer(project, patch = {}) {
+  const shared = ensureSharedAudio(project);
+  if ('gainDb' in patch) shared.master.gainDb = clamp(Number(patch.gainDb), -60, 12);
+  if ('cueMonitor' in patch) shared.master.cueMonitor = Boolean(patch.cueMonitor);
+  return shared.master;
 }
 
 export function updateChannelMixer(project, channelId, patch = {}) {
@@ -112,6 +121,7 @@ export function validateSharedAudio(project) {
   if (!shared) return { valid: false, errors: ['missing sharedAudio contract'] };
   if (shared.schema !== SHARED_AUDIO_SCHEMA) errors.push('sharedAudio schema mismatch');
   if (shared.projectId !== project?.project?.id) errors.push('sharedAudio project id mismatch');
+  if (!shared.master) errors.push('sharedAudio master bus missing');
   if (!Array.isArray(shared.channels)) errors.push('sharedAudio channels must be an array');
   for (const channel of shared.channels || []) {
     if (!channel.id || !channel.assetId) errors.push('channel requires id and assetId');
@@ -178,61 +188,13 @@ function preserveOrCreate(existing, seed) {
   };
 }
 
-function defaultMixer() {
-  return {
-    gainDb: 0,
-    pan: 0,
-    mute: false,
-    solo: false,
-    cue: false,
-    eq: { lowDb: 0, midDb: 0, highDb: 0 },
-    fx: [],
-  };
-}
-
-function defaultClip(durationSec) {
-  return {
-    startSec: 0,
-    endSec: Number(durationSec || 0),
-    loop: { enabled: false, bars: 4, snap: true },
-    warp: { enabled: false, preservePitch: true, targetBpm: null },
-  };
-}
-
-function defaultRebuild(assetId) {
-  return { selected: 'original', sourceAssetId: assetId, reconstructedAssetId: null, rendererAdapterId: null };
-}
-
-function getChannel(project, channelId) {
-  const shared = ensureSharedAudio(project);
-  const channel = shared.channels.find(item => item.id === channelId);
-  if (!channel) throw new Error(`Unknown shared-audio channel: ${channelId}`);
-  return channel;
-}
-
-function channelKey(channel) {
-  return `${channel.partId || ''}|${channel.assetId || ''}`;
-}
-
-function dedupeChannels(channels) {
-  const seen = new Set();
-  return channels.filter(channel => {
-    const key = channel.id;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
-function assertProject(project) {
-  if (!project?.project?.id || !project?.source || !Array.isArray(project?.assets) || !Array.isArray(project?.parts)) {
-    throw new Error('A valid Fidelis project is required.');
-  }
-}
-
-function finiteOrNull(value) {
-  const number = Number(value);
-  return Number.isFinite(number) && number > 0 ? number : null;
-}
-
+function defaultMaster() { return { gainDb: 0, cueMonitor: false }; }
+function defaultMixer() { return { gainDb: 0, pan: 0, mute: false, solo: false, cue: false, eq: { lowDb: 0, midDb: 0, highDb: 0 }, fx: [] }; }
+function defaultClip(durationSec) { return { startSec: 0, endSec: Number(durationSec || 0), loop: { enabled: false, bars: 4, snap: true }, warp: { enabled: false, preservePitch: true, targetBpm: null } }; }
+function defaultRebuild(assetId) { return { selected: 'original', sourceAssetId: assetId, reconstructedAssetId: null, rendererAdapterId: null }; }
+function getChannel(project, channelId) { const shared = ensureSharedAudio(project); const channel = shared.channels.find(item => item.id === channelId); if (!channel) throw new Error(`Unknown shared-audio channel: ${channelId}`); return channel; }
+function channelKey(channel) { return `${channel.partId || ''}|${channel.assetId || ''}`; }
+function dedupeChannels(channels) { const seen = new Set(); return channels.filter(channel => { const key = channel.id; if (seen.has(key)) return false; seen.add(key); return true; }); }
+function assertProject(project) { if (!project?.project?.id || !project?.source || !Array.isArray(project?.assets) || !Array.isArray(project?.parts)) throw new Error('A valid Fidelis project is required.'); }
+function finiteOrNull(value) { const number = Number(value); return Number.isFinite(number) && number > 0 ? number : null; }
 const clamp = (value, min, max) => Math.max(min, Math.min(max, Number.isFinite(value) ? value : 0));

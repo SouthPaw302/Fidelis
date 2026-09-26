@@ -147,8 +147,13 @@
           <div><span class="panel-code">MIX-04</span><h2>Stem Mixer</h2></div>
           <div class="mixer-toolbar"><label>BPM <input id="mixerBpm" type="number" min="30" max="300" step="0.01" placeholder="AUTO"></label><span id="mixerState" class="deck-badge muted">WAITING FOR PROJECT</span></div>
         </div>
+        <div class="mixer-master-strip">
+          <label>MASTER <input id="masterGain" type="range" min="-24" max="6" step="0.5" value="0"><output id="masterGainReadout">0.0 dB</output></label>
+          <button id="cueMonitorBtn" class="mixer-toggle">CUE MONITOR OFF</button>
+          <span id="dspState" class="deck-badge muted">DSP IDLE</span>
+        </div>
         <div id="stemMixer" class="stem-mixer"><div class="mixer-empty">Load a song or stem to create the shared source channel.</div></div>
-        <div class="mixer-scope">Mixer controls are stored in the shared Fidelis ↔ Libertas audio contract now. Audible DSP routing is the next surgery step.</div>
+        <div class="mixer-scope">Web Audio DSP is live: per-channel EQ, fader, pan, mute/solo, cue-preview bus, master gain and safety compression. Beat-synced looping comes next.</div>
       </section>
 
       <section class="deck-grid secondary-grid">

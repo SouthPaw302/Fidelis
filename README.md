@@ -18,7 +18,8 @@ Fidelis keeps the existing `fidelis.project.v0.2` reconstruction core and adds a
 - monophonic performance mapping;
 - Jev route ranking;
 - project/performance export;
-- shared audio contract and stateful source/stem mixer controls.
+- shared audio contract and stateful source/stem mixer controls;
+- audible Web Audio mixer DSP with EQ, gain, pan, mute/solo, cue preview, master gain and safety compression.
 
 ### Backend exists but the rolled-back browser frontend does not currently drive it
 
@@ -30,7 +31,6 @@ Fidelis keeps the existing `fidelis.project.v0.2` reconstruction core and adds a
 
 ### Not yet claimed as working
 
-- audible multichannel mixer DSP routing;
 - automatic separation from the deployed browser GUI;
 - Google Drive media transfer;
 - canonical beat/downbeat grid and looping engine;

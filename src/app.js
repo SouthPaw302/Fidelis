@@ -82,10 +82,6 @@ els.instrument.addEventListener('change', onSourceTypeChange);
   els.dropzone.classList.remove('drag');
 }));
 els.dropzone.addEventListener('drop', event => event.dataTransfer?.files?.[0] && loadPrimaryFile(event.dataTransfer.files[0]));
-els.play.addEventListener('click', () => {
-  els.preview.hidden = false;
-  els.preview.paused ? els.preview.play() : els.preview.pause();
-});
 els.analyze.addEventListener('click', runDecompile);
 els.export.addEventListener('click', exportPerformance);
 els.exportProject.addEventListener('click', exportProject);
@@ -119,6 +115,7 @@ async function loadPrimaryFile(file) {
       channels: buffer.numberOfChannels,
     });
     state.primaryAssetId = sourceAsset.id;
+    window.dispatchEvent(new CustomEvent('fidelis:audio-buffer', { detail: { assetId: sourceAsset.id, buffer } }));
 
     drawWaveform(els.waveform, buffer);
     els.play.disabled = false;
@@ -153,7 +150,7 @@ async function loadSuppliedStems(files) {
     try {
       const buffer = await decodeAudioFile(file);
       const instrument = inferInstrumentFromFileName(file.name);
-      addSuppliedStem(state.project, {
+      const part = addSuppliedStem(state.project, {
         fileName: file.name,
         mimeType: file.type,
         size: file.size,
@@ -164,6 +161,7 @@ async function loadSuppliedStems(files) {
         instrument,
         label: stripExtension(file.name),
       });
+      window.dispatchEvent(new CustomEvent('fidelis:audio-buffer', { detail: { assetId: part.sourceAssetId, buffer } }));
       added++;
       log('STEM', `${file.name} attached as ${instrument}.`);
     } catch (error) {
@@ -414,6 +412,7 @@ function exportProject() {
 }
 
 function resetForNewSource() {
+  window.dispatchEvent(new CustomEvent('fidelis:audio-reset'));
   state.buffer = null;
   state.analysis = null;
   state.document = null;
